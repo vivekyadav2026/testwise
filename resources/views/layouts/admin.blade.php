@@ -178,6 +178,98 @@
 </head>
 <body class="h-full font-sans antialiased text-gray-900" x-data="{ sidebarOpen: false, sidebarCollapsed: false }">
 
+    <!-- Mobile sidebar off-canvas -->
+    <div x-show="sidebarOpen" class="relative z-40 md:hidden" role="dialog" aria-modal="true" style="display: none;">
+        <div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-600 bg-opacity-75"></div>
+
+        <div class="fixed inset-0 z-40 flex">
+            <div x-show="sidebarOpen" x-transition:enter="transition ease-in-out duration-300 transform" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in-out duration-300 transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="relative flex w-full max-w-xs flex-1 flex-col pb-4 pt-5" style="background-color: var(--theme-bg);">
+                
+                <div class="absolute right-0 top-0 -mr-12 pt-2">
+                    <button type="button" @click="sidebarOpen = false" class="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                        <i class="fa-solid fa-xmark text-white text-xl"></i>
+                    </button>
+                </div>
+
+                <div class="flex flex-shrink-0 items-center justify-between px-4 mb-6">
+                    <div class="text-white flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center p-1 shadow-sm shrink-0">
+                            <div class="w-full h-full bg-[var(--gold)] rounded-md flex items-center justify-center text-[var(--theme-bg)] font-bold">A</div>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="truncate font-extrabold text-base tracking-tight leading-tight" style="color: white !important;">Testwise</span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--theme-active) !important;">Admin Console</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-2 h-0 flex-1 overflow-y-auto">
+                    <nav class="space-y-1 px-2">
+                        <a href="{{ route('admin.dashboard') }}" class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                            <i class="fa-solid fa-chart-pie w-4 text-center"></i>
+                            <span>Overview</span>
+                        </a>
+
+                        <div class="px-2 mt-6 mb-2">
+                            <div class="text-[10px] font-bold uppercase tracking-widest text-[var(--theme-text)]">Content Management</div>
+                        </div>
+
+                        <a href="{{ route('admin.subjects') }}" class="sidebar-item {{ request()->routeIs('admin.subjects') ? 'active' : '' }}">
+                            <i class="fa-solid fa-layer-group w-4 text-center"></i>
+                            <span>Subjects</span>
+                        </a>
+                        <a href="{{ route('admin.chapters') }}" class="sidebar-item {{ request()->routeIs('admin.chapters') ? 'active' : '' }}">
+                            <i class="fa-solid fa-book w-4 text-center"></i>
+                            <span>Chapters & Notes</span>
+                        </a>
+                        <a href="{{ route('admin.questions') }}" class="sidebar-item {{ request()->routeIs('admin.questions') ? 'active' : '' }}">
+                            <i class="fa-solid fa-clipboard-list w-4 text-center"></i>
+                            <span>Question Bank</span>
+                        </a>
+                        <a href="{{ route('admin.mock-tests') }}" class="sidebar-item {{ request()->routeIs('admin.mock-tests') ? 'active' : '' }}">
+                            <i class="fa-solid fa-clock-rotate-left w-4 text-center"></i>
+                            <span>Mock Tests</span>
+                        </a>
+
+                        <div class="px-2 mt-6 mb-2">
+                            <div class="text-[10px] font-bold uppercase tracking-widest text-[var(--theme-text)]">User Management</div>
+                        </div>
+
+                        <a href="{{ route('admin.students') }}" class="sidebar-item {{ request()->routeIs('admin.students') ? 'active' : '' }}">
+                            <i class="fa-solid fa-users w-4 text-center"></i>
+                            <span>Students Directory</span>
+                        </a>
+                        <a href="{{ route('admin.payments') }}" class="sidebar-item {{ request()->routeIs('admin.payments') ? 'active' : '' }}">
+                            <i class="fa-solid fa-wallet w-4 text-center"></i>
+                            <span>Payments & Access</span>
+                        </a>
+                        <a href="{{ route('admin.certificates') }}" class="sidebar-item {{ request()->routeIs('admin.certificates') ? 'active' : '' }}">
+                            <i class="fa-solid fa-award w-4 text-center"></i>
+                            <span>Certificates</span>
+                        </a>
+                    </nav>
+                </div>
+                
+                <div class="flex flex-shrink-0 border-t border-white/10 p-4">
+                    <div class="flex items-center">
+                        <div class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--theme-active)] text-[var(--theme-active-text)] font-bold shrink-0">
+                            A
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-white truncate max-w-[130px]" style="color: white !important;">Administrator</p>
+                            <form action="{{ route('logout') }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="text-xs font-medium text-[var(--theme-text)] hover:text-white transition-colors">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Static sidebar -->
     <div :class="sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'" class="sidebar-expanded md:w-64 hidden md:flex md:fixed md:inset-y-0 md:flex-col transition-all duration-300 z-30">
         <div class="flex min-h-0 flex-1 flex-col" style="background-color: var(--theme-bg);">
@@ -185,7 +277,7 @@
                 <div class="flex flex-shrink-0 items-center justify-between px-4 mb-6">
                     <div class="text-white flex items-center gap-2.5">
                         <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center p-1 shadow-sm shrink-0">
-                            <div class="w-full h-full bg-[var(--gold)] rounded-md flex items-center justify-center text-[var(--theme-bg)] font-bold"><i class="fa-solid fa-graduation-cap text-xs"></i></div>
+                            <div class="w-full h-full bg-[var(--gold)] rounded-md flex items-center justify-center text-[var(--theme-bg)] font-bold">A</div>
                         </div>
                         <div x-show="!sidebarCollapsed" class="flex flex-col">
                             <span class="truncate font-extrabold text-base tracking-tight leading-tight" style="color: white !important;">Testwise</span>
@@ -195,45 +287,50 @@
                 </div>
 
                 <div class="px-4 mb-2">
-                    <div class="text-[10px] font-bold uppercase tracking-widest text-[var(--theme-text)]">Course Admin</div>
+                    <div class="text-[10px] font-bold uppercase tracking-widest text-[var(--theme-text)]">Main Navigation</div>
                 </div>
 
                 <nav class="mt-2 flex-1 space-y-1 px-2">
                     <a href="{{ route('admin.dashboard') }}" class="sidebar-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                         <i class="fa-solid fa-chart-pie w-4 text-center"></i>
-                        <span>Dashboard</span>
+                        <span>Overview</span>
                     </a>
+
+                    <div class="px-2 mt-6 mb-2">
+                        <div class="text-[10px] font-bold uppercase tracking-widest text-[var(--theme-text)]">Content Management</div>
+                    </div>
+
                     <a href="{{ route('admin.subjects') }}" class="sidebar-item {{ request()->routeIs('admin.subjects') ? 'active' : '' }}">
-                        <i class="fa-solid fa-book w-4 text-center"></i>
+                        <i class="fa-solid fa-layer-group w-4 text-center"></i>
                         <span>Subjects</span>
                     </a>
                     <a href="{{ route('admin.chapters') }}" class="sidebar-item {{ request()->routeIs('admin.chapters') ? 'active' : '' }}">
-                        <i class="fa-solid fa-layer-group w-4 text-center"></i>
-                        <span>Chapters</span>
+                        <i class="fa-solid fa-book w-4 text-center"></i>
+                        <span>Chapters & Notes</span>
                     </a>
                     <a href="{{ route('admin.questions') }}" class="sidebar-item {{ request()->routeIs('admin.questions') ? 'active' : '' }}">
-                        <i class="fa-solid fa-circle-question w-4 text-center"></i>
-                        <span>Questions</span>
+                        <i class="fa-solid fa-clipboard-list w-4 text-center"></i>
+                        <span>Question Bank</span>
                     </a>
                     <a href="{{ route('admin.mock-tests') }}" class="sidebar-item {{ request()->routeIs('admin.mock-tests') ? 'active' : '' }}">
-                        <i class="fa-solid fa-laptop-code w-4 text-center"></i>
+                        <i class="fa-solid fa-clock-rotate-left w-4 text-center"></i>
                         <span>Mock Tests</span>
                     </a>
 
                     <div class="px-2 mt-6 mb-2">
-                        <div class="text-[10px] font-bold uppercase tracking-widest text-[var(--theme-text)]">Users & Revenue</div>
+                        <div class="text-[10px] font-bold uppercase tracking-widest text-[var(--theme-text)]">User Management</div>
                     </div>
 
                     <a href="{{ route('admin.students') }}" class="sidebar-item {{ request()->routeIs('admin.students') ? 'active' : '' }}">
                         <i class="fa-solid fa-users w-4 text-center"></i>
-                        <span>Students</span>
+                        <span>Students Directory</span>
                     </a>
                     <a href="{{ route('admin.payments') }}" class="sidebar-item {{ request()->routeIs('admin.payments') ? 'active' : '' }}">
-                        <i class="fa-solid fa-credit-card w-4 text-center"></i>
-                        <span>Payments</span>
+                        <i class="fa-solid fa-wallet w-4 text-center"></i>
+                        <span>Payments & Access</span>
                     </a>
                     <a href="{{ route('admin.certificates') }}" class="sidebar-item {{ request()->routeIs('admin.certificates') ? 'active' : '' }}">
-                        <i class="fa-solid fa-file-certificate w-4 text-center"></i>
+                        <i class="fa-solid fa-award w-4 text-center"></i>
                         <span>Certificates</span>
                     </a>
                 </nav>
@@ -263,9 +360,12 @@
     <!-- Main Container -->
     <div :class="sidebarCollapsed ? 'main-collapsed' : 'main-expanded'" class="main-expanded md:pl-64 flex flex-1 flex-col transition-all duration-300">
         <div class="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-white shadow-sm border-b border-gray-200">
+            <button type="button" @click="sidebarOpen = true" class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
             <div class="flex flex-1 justify-between px-4 items-center">
                 <div class="flex items-center">
-                    <h2 class="text-lg font-bold text-gray-800" style="color: var(--text-main) !important;">MP Police GD 2026 Admin</h2>
+                    <h2 class="text-lg font-bold text-gray-800 hidden sm:block" style="color: var(--text-main) !important;">MP Police GD 2026 Admin</h2>
                 </div>
                 <div class="flex items-center gap-3">
                     <a href="{{ route('login') }}" class="btn btn-gold text-xs">

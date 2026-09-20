@@ -178,6 +178,98 @@
 </head>
 <body class="h-full font-sans antialiased text-gray-900" x-data="{ sidebarOpen: false, sidebarCollapsed: false }">
 
+    <!-- Mobile sidebar off-canvas -->
+    <div x-show="sidebarOpen" class="relative z-40 md:hidden" role="dialog" aria-modal="true" style="display: none;">
+        <div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-600 bg-opacity-75"></div>
+
+        <div class="fixed inset-0 z-40 flex">
+            <div x-show="sidebarOpen" x-transition:enter="transition ease-in-out duration-300 transform" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in-out duration-300 transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="relative flex w-full max-w-xs flex-1 flex-col pb-4 pt-5" style="background-color: var(--theme-bg);">
+                
+                <div class="absolute right-0 top-0 -mr-12 pt-2">
+                    <button type="button" @click="sidebarOpen = false" class="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                        <i class="fa-solid fa-xmark text-white text-xl"></i>
+                    </button>
+                </div>
+
+                <div class="flex flex-shrink-0 items-center justify-between px-4 mb-6">
+                    <div class="text-white flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-white flex items-center justify-center p-1 shadow-sm shrink-0">
+                            <div class="w-full h-full bg-[var(--gold)] rounded-md flex items-center justify-center text-[var(--theme-bg)] font-bold">T</div>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="truncate font-extrabold text-base tracking-tight leading-tight" style="color: white !important;">Testwise</span>
+                            <span class="text-[10px] font-bold uppercase tracking-wider" style="color: var(--theme-active) !important;">Student Portal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-2 h-0 flex-1 overflow-y-auto">
+                    <nav class="space-y-1 px-2">
+                        <a href="{{ route('student.dashboard') }}" class="sidebar-item {{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
+                            <i class="fa-solid fa-house w-4 text-center"></i>
+                            <span>Dashboard</span>
+                        </a>
+                        <a href="{{ route('student.chapter-tests') }}" class="sidebar-item {{ request()->routeIs('student.chapter-tests') || request()->routeIs('student.course') ? 'active' : '' }}">
+                            <i class="fa-solid fa-book-open w-4 text-center"></i>
+                            <span>My Course</span>
+                        </a>
+                        <a href="{{ route('student.mock-tests') }}" class="sidebar-item {{ request()->routeIs('student.mock-tests') ? 'active' : '' }}">
+                            <i class="fa-solid fa-clock-rotate-left w-4 text-center"></i>
+                            <span>Mock Tests</span>
+                        </a>
+
+                        <div class="px-2 mt-6 mb-2">
+                            <div class="text-[10px] font-bold uppercase tracking-widest text-[var(--theme-text)]">Analysis</div>
+                        </div>
+
+                        <a href="{{ route('student.mistakes') }}" class="sidebar-item {{ request()->routeIs('student.mistakes') ? 'active' : '' }}">
+                            <i class="fa-solid fa-triangle-exclamation w-4 text-center text-[var(--rose)]"></i>
+                            <span>Error Workbook</span>
+                        </a>
+                        <a href="{{ route('student.weak-topics') }}" class="sidebar-item {{ request()->routeIs('student.weak-topics') ? 'active' : '' }}">
+                            <i class="fa-solid fa-chart-line w-4 text-center text-[var(--gold)]"></i>
+                            <span>Weak Topics</span>
+                        </a>
+                        <a href="{{ route('student.performance') }}" class="sidebar-item {{ request()->routeIs('student.performance') ? 'active' : '' }}">
+                            <i class="fa-solid fa-award w-4 text-center text-[var(--teal)]"></i>
+                            <span>Analytics</span>
+                        </a>
+                        <a href="{{ route('student.certificate') }}" class="sidebar-item {{ request()->routeIs('student.certificate') ? 'active' : '' }}">
+                            <i class="fa-solid fa-certificate w-4 text-center"></i>
+                            <span>Certificate</span>
+                        </a>
+                        
+                        <div class="px-4 mb-2 mt-4">
+                            <div class="text-[10px] font-bold uppercase tracking-widest text-[var(--theme-text)]">Account</div>
+                        </div>
+                        
+                        <a href="{{ route('student.profile') }}" class="sidebar-item {{ request()->routeIs('student.profile') ? 'active' : '' }}">
+                            <i class="fa-solid fa-user-pen w-4 text-center"></i>
+                            <span>My Profile</span>
+                        </a>
+                    </nav>
+                </div>
+                
+                <div class="flex flex-shrink-0 border-t border-white/10 p-4">
+                    <div class="flex items-center">
+                        <div class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--theme-active)] text-[var(--theme-active-text)] font-bold shrink-0">
+                            {{ strtoupper(substr($user->name, 0, 1)) }}
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-white truncate max-w-[130px]" style="color: white !important;">{{ $user->name }}</p>
+                            <form action="{{ route('logout') }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="text-xs font-medium text-[var(--theme-text)] hover:text-white transition-colors">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Static sidebar -->
     <div :class="sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'" class="sidebar-expanded md:w-64 hidden md:flex md:fixed md:inset-y-0 md:flex-col transition-all duration-300 z-30">
         <div class="flex min-h-0 flex-1 flex-col" style="background-color: var(--theme-bg);">
@@ -268,9 +360,12 @@
     <!-- Main Container -->
     <div :class="sidebarCollapsed ? 'main-collapsed' : 'main-expanded'" class="main-expanded md:pl-64 flex flex-1 flex-col transition-all duration-300">
         <div class="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-white shadow-sm border-b border-gray-200">
+            <button type="button" @click="sidebarOpen = true" class="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
             <div class="flex flex-1 justify-between px-4 items-center">
                 <div class="flex items-center">
-                    <h2 class="text-lg font-bold text-gray-800" style="color: var(--text-main) !important;">MP Police GD 2026 Student</h2>
+                    <h2 class="text-lg font-bold text-gray-800 hidden sm:block" style="color: var(--text-main) !important;">MP Police GD 2026 Student</h2>
                 </div>
                 <div class="flex items-center gap-3">
                     @if(!$user->is_pro)
