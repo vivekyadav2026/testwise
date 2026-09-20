@@ -10,9 +10,9 @@
         <p class="text-sm" style="color: var(--text-muted);">प्रथम 3 अध्यायों के नोट्स और टेस्ट का पूर्ण एक्सेस बिना किसी शुल्क के आजमाएं</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
         @foreach($freeChapters as $ch)
-            <div class="p-6 rounded-3xl panel space-y-4 flex flex-col justify-between">
+            <div class="p-4 sm:p-6 rounded-3xl panel space-y-4 flex flex-col justify-between">
                 <div class="space-y-3">
                     <div class="flex items-center justify-between">
                         <span class="px-2.5 py-0.5 rounded-full font-bold text-xs" style="background-color: rgba(217,154,43,0.1); color: var(--gold-deep);">

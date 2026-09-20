@@ -41,16 +41,16 @@
             </p>
         </div>
 
-        <div class="grid grid-cols-3 gap-4 pt-6 border-t text-center text-xs" style="border-color: var(--border-color);">
-            <div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t text-center text-xs" style="border-color: var(--border-color);">
+            <div class="p-2">
                 <span class="block mb-1" style="color: var(--text-muted);">Issue Date</span>
                 <span class="font-bold" style="color: var(--text-main) !important;">{{ \Carbon\Carbon::parse($certificate->issue_date)->format('d M Y') }}</span>
             </div>
-            <div>
+            <div class="p-2 border-t sm:border-t-0 sm:border-l" style="border-color: var(--border-color);">
                 <span class="block mb-1" style="color: var(--text-muted);">Overall Performance</span>
                 <span class="font-bold" style="color: var(--teal);">{{ $certificate->score_achieved }}% Score</span>
             </div>
-            <div>
+            <div class="p-2 border-t sm:border-t-0 sm:border-l" style="border-color: var(--border-color);">
                 <span class="block mb-1" style="color: var(--text-muted);">Verification Status</span>
                 <span class="font-bold" style="color: var(--theme-bg);">VERIFIED GENUINE</span>
             </div>

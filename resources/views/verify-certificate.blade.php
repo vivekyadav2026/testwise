@@ -46,16 +46,16 @@
                     </span>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 text-xs">
-                    <div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 text-xs">
+                    <div class="border-b sm:border-b-0 pb-3 sm:pb-0" style="border-color: var(--border-color);">
                         <span class="block mb-1" style="color: var(--text-muted);">Candidate Name</span>
                         <span class="text-base font-bold" style="color: var(--text-main) !important;">{{ $certificate->user->name ?? 'Rahul Sharma' }}</span>
                     </div>
-                    <div>
+                    <div class="border-b sm:border-b-0 pb-3 sm:pb-0" style="border-color: var(--border-color);">
                         <span class="block mb-1" style="color: var(--text-muted);">Course Title</span>
                         <span class="text-base font-bold" style="color: var(--text-main) !important;">{{ $certificate->course_name }}</span>
                     </div>
-                    <div>
+                    <div class="border-b sm:border-b-0 pb-3 sm:pb-0" style="border-color: var(--border-color);">
                         <span class="block mb-1" style="color: var(--text-muted);">Issue Date</span>
                         <span class="font-semibold" style="color: var(--text-main) !important;">{{ \Carbon\Carbon::parse($certificate->issue_date)->format('d M Y') }}</span>
                     </div>
