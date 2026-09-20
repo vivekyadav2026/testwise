@@ -13,7 +13,9 @@
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
+    <!-- Tailwind CSS & Alpine.js -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
         :root {
@@ -148,13 +150,13 @@
 <body class="min-h-screen font-sans antialiased flex flex-col">
 
     <!-- Top Announcement Bar & Quick Role Switcher -->
-    <div class="bg-gray-100 border-b border-gray-200 px-4 py-2 text-xs font-medium" style="background-color: var(--theme-bg); color: var(--theme-text);">
+    <div class="bg-gray-100 border-b border-gray-200 px-4 py-2 text-xs font-medium hidden sm:block" style="background-color: var(--theme-bg); color: var(--theme-text);">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
             <div class="flex items-center gap-2">
                 <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold" style="background-color: var(--theme-active); color: var(--theme-active-text);">
                     BILINGUAL LIVE BATCH
                 </span>
-                <span class="hidden md:inline" style="color: white !important;">MP Police Constable GD 2026 - New Pattern & Chapter Notes Live</span>
+                <span style="color: white !important;">MP Police Constable GD 2026 - New Pattern & Chapter Notes Live</span>
             </div>
 
             <div class="flex items-center gap-2">
@@ -178,35 +180,33 @@
     </div>
 
     <!-- Main Navigation Bar -->
-    <header class="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200">
+    <header class="sticky top-0 z-40 bg-white shadow-sm border-b border-gray-200" x-data="{ mobileMenuOpen: false }">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
             
             <!-- Brand Logo -->
-            <a href="{{ route('home') }}" class="flex items-center gap-2.5 group">
+            <a href="{{ route('home') }}" class="flex items-center gap-2.5 group shrink-0">
                 <div class="w-10 h-10 rounded-xl flex items-center justify-center font-black text-xl shadow-sm transition" style="background-color: var(--gold); color: var(--theme-bg);">
                     T
                 </div>
                 <div>
                     <div class="flex items-center gap-1.5">
                         <span class="font-extrabold text-lg tracking-tight" style="color: var(--text-main) !important;">Testwise</span>
-                        <span class="text-[10px] font-bold px-1.5 py-0.2 rounded border" style="background-color: var(--teal-soft); color: var(--teal); border-color: var(--teal);">GD 2026</span>
+                        <span class="hidden sm:inline-block text-[10px] font-bold px-1.5 py-0.2 rounded border" style="background-color: var(--teal-soft); color: var(--teal); border-color: var(--teal);">GD 2026</span>
                     </div>
-                    <p class="text-[10px] -mt-1 font-medium" style="color: var(--text-muted);">MP Police Exam Portal</p>
+                    <p class="hidden sm:block text-[10px] -mt-1 font-medium" style="color: var(--text-muted);">MP Police Exam Portal</p>
                 </div>
             </a>
 
-            <!-- Nav Links -->
+            <!-- Desktop Nav Links -->
             <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
                 <a href="{{ route('home') }}" class="transition hover:text-[var(--gold-deep)] {{ request()->routeIs('home') ? 'font-bold' : '' }}" style="color: var(--text-main) !important;">Home</a>
                 <a href="{{ route('courses') }}" class="transition hover:text-[var(--gold-deep)] {{ request()->routeIs('courses') ? 'font-bold' : '' }}" style="color: var(--text-main) !important;">Courses</a>
                 <a href="{{ route('free-content') }}" class="transition hover:text-[var(--gold-deep)] {{ request()->routeIs('free-content') ? 'font-bold' : '' }}" style="color: var(--text-main) !important;">Free Content</a>
-                <a href="{{ route('verify-certificate') }}" class="transition hover:text-[var(--gold-deep)] {{ request()->routeIs('verify-certificate') ? 'font-bold' : '' }}" style="color: var(--text-main) !important;">Verify Certificate</a>
                 <a href="{{ route('exam-info') }}" class="transition hover:text-[var(--gold-deep)] {{ request()->routeIs('exam-info') ? 'font-bold' : '' }}" style="color: var(--text-main) !important;">Exam Info</a>
-                <a href="{{ route('contact') }}" class="transition hover:text-[var(--gold-deep)] {{ request()->routeIs('contact') ? 'font-bold' : '' }}" style="color: var(--text-main) !important;">Contact</a>
             </nav>
 
-            <!-- Action Buttons -->
-            <div class="flex items-center gap-3">
+            <!-- Desktop Action Buttons -->
+            <div class="hidden md:flex items-center gap-3 shrink-0">
                 @auth
                     @if(Auth::user()->isAdmin())
                         <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary text-sm">
@@ -217,14 +217,56 @@
                             <i class="fa-solid fa-table-columns"></i> My Dashboard
                         </a>
                     @endif
-                    <a href="{{ route('logout') }}" class="text-sm p-2 hover:text-[var(--rose)]" style="color: var(--text-muted);" title="Logout">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                    </a>
+                    <form action="{{ route('logout') }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="text-sm p-2 hover:text-[var(--rose)]" style="color: var(--text-muted);" title="Logout">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </form>
                 @else
                     <a href="{{ route('login') }}" class="px-4 py-2 text-sm font-medium hover:text-[var(--gold-deep)]" style="color: var(--text-main);">Log in</a>
                     <a href="{{ route('register') }}" class="btn btn-gold text-sm">
-                        Enroll Now ₹499
+                        Enroll ₹499
                     </a>
+                @endauth
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <div class="flex md:hidden items-center">
+                <button type="button" @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 text-gray-500 focus:outline-none">
+                    <i class="fa-solid" :class="mobileMenuOpen ? 'fa-xmark text-2xl' : 'fa-bars text-xl'"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div x-show="mobileMenuOpen" class="md:hidden border-t border-gray-200" style="background-color: var(--bg-card); display: none;">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="{{ route('home') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('home') ? 'bg-gray-100 font-bold' : '' }}" style="color: var(--text-main) !important;">Home</a>
+                <a href="{{ route('courses') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('courses') ? 'bg-gray-100 font-bold' : '' }}" style="color: var(--text-main) !important;">Courses</a>
+                <a href="{{ route('free-content') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('free-content') ? 'bg-gray-100 font-bold' : '' }}" style="color: var(--text-main) !important;">Free Content</a>
+                <a href="{{ route('exam-info') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->routeIs('exam-info') ? 'bg-gray-100 font-bold' : '' }}" style="color: var(--text-main) !important;">Exam Info</a>
+            </div>
+            <div class="pt-4 pb-3 border-t border-gray-200 px-5 space-y-3">
+                @auth
+                    @if(Auth::user()->isAdmin())
+                        <a href="{{ route('admin.dashboard') }}" class="block w-full text-center btn btn-secondary text-sm">
+                            <i class="fa-solid fa-gauge"></i> Admin Console
+                        </a>
+                    @else
+                        <a href="{{ route('student.dashboard') }}" class="block w-full text-center btn btn-secondary text-sm">
+                            <i class="fa-solid fa-table-columns"></i> My Dashboard
+                        </a>
+                    @endif
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="block w-full text-center btn text-sm border shadow-sm" style="background-color: white; color: var(--rose); border-color: var(--rose-soft);">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}" class="block w-full text-center btn btn-secondary text-sm">Log in</a>
+                    <a href="{{ route('register') }}" class="block w-full text-center btn btn-gold text-sm">Enroll Now ₹499</a>
                 @endauth
             </div>
         </div>

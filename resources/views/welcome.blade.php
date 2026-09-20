@@ -137,8 +137,8 @@
             <p class="text-sm" style="color: var(--text-muted);">मध्य प्रदेश पुलिस आरक्षक भर्ती हेतु विषयवार थ्योरी नोट्स, प्रैक्टिस सेट्स एवं कमजोर विषय विश्लेषण।</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div class="p-6 rounded-2xl panel space-y-3">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+            <div class="p-4 sm:p-6 rounded-2xl panel space-y-3">
                 <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold" style="background-color: var(--bg-main); color: var(--theme-bg);">
                     <i class="fa-solid fa-book-open"></i>
                 </div>
@@ -146,7 +146,7 @@
                 <p class="text-xs leading-relaxed" style="color: var(--text-muted);">नवीनतम पाठ्यक्रम एवं विगत वर्षों के प्रश्नों पर आधारित थ्योरी व शॉर्टकट ट्रिक्स।</p>
             </div>
 
-            <div class="p-6 rounded-2xl panel space-y-3">
+            <div class="p-4 sm:p-6 rounded-2xl panel space-y-3">
                 <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold" style="background-color: var(--bg-main); color: var(--theme-bg);">
                     <i class="fa-solid fa-list-check"></i>
                 </div>
@@ -154,7 +154,7 @@
                 <p class="text-xs leading-relaxed" style="color: var(--text-muted);">प्रत्येक अध्याय के बाद तुरंत स्व-मूल्यांकन के लिए वस्तुनिष्ठ प्रश्न उत्तर।</p>
             </div>
 
-            <div class="p-6 rounded-2xl panel space-y-3">
+            <div class="p-4 sm:p-6 rounded-2xl panel space-y-3">
                 <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold" style="background-color: var(--bg-main); color: var(--theme-active);">
                     <i class="fa-solid fa-laptop-code"></i>
                 </div>
@@ -162,7 +162,7 @@
                 <p class="text-xs leading-relaxed" style="color: var(--text-muted);">100 प्रश्न | 120 मिनट समयसीमा के साथ वास्तविक CBT परीक्षा का अनुभव।</p>
             </div>
 
-            <div class="p-6 rounded-2xl panel space-y-3">
+            <div class="p-4 sm:p-6 rounded-2xl panel space-y-3">
                 <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold" style="background-color: var(--bg-main); color: var(--rose);">
                     <i class="fa-solid fa-chart-line"></i>
                 </div>
@@ -182,33 +182,33 @@
             <p class="text-xs" style="color: var(--text-muted);">वैज्ञानिक विधि द्वारा 6 चरणों में अपनी तैयारी सुनिश्चित करें</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+            <div class="p-4 sm:p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
                 <div class="text-xs font-bold" style="color: var(--theme-bg);">STEP 1</div>
                 <h4 class="font-bold text-base" style="color: var(--text-main) !important;">Study Chapter</h4>
                 <p class="text-xs" style="color: var(--text-muted);">अध्याय के थ्योरी नोट्स ध्यानपूर्वक पढ़ें।</p>
             </div>
-            <div class="p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
+            <div class="p-4 sm:p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
                 <div class="text-xs font-bold" style="color: var(--theme-bg);">STEP 2</div>
                 <h4 class="font-bold text-base" style="color: var(--text-main) !important;">Complete Notes</h4>
                 <p class="text-xs" style="color: var(--text-muted);">महत्वपूर्ण बिंदु व सूत्रों का पुनरीक्षण करें।</p>
             </div>
-            <div class="p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
+            <div class="p-4 sm:p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
                 <div class="text-xs font-bold" style="color: var(--theme-bg);">STEP 3</div>
                 <h4 class="font-bold text-base" style="color: var(--text-main) !important;">Take Chapter Test</h4>
                 <p class="text-xs" style="color: var(--text-muted);">15 प्रश्नों का चैप्टर टेस्ट हल करें।</p>
             </div>
-            <div class="p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
+            <div class="p-4 sm:p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
                 <div class="text-xs font-bold" style="color: var(--theme-bg);">STEP 4</div>
                 <h4 class="font-bold text-base" style="color: var(--text-main) !important;">Check Result</h4>
                 <p class="text-xs" style="color: var(--text-muted);">अपनी सटीकता व स्कोर का विश्लेषण देखें।</p>
             </div>
-            <div class="p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
+            <div class="p-4 sm:p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
                 <div class="text-xs font-bold" style="color: var(--theme-bg);">STEP 5</div>
                 <h4 class="font-bold text-base" style="color: var(--text-main) !important;">Improve Weak Topics</h4>
                 <p class="text-xs" style="color: var(--text-muted);">गलत प्रश्नों को गलती सुधार पुस्तिका में दोहराएं।</p>
             </div>
-            <div class="p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
+            <div class="p-4 sm:p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
                 <div class="text-xs font-bold" style="color: var(--theme-bg);">STEP 6</div>
                 <h4 class="font-bold text-base" style="color: var(--text-main) !important;">Attempt Full Mock Tests</h4>
                 <p class="text-xs" style="color: var(--text-muted);">10 फुल मॉक टेस्ट देकर अपनी रैंक जानें।</p>
@@ -225,9 +225,9 @@
             <p class="text-xs" style="color: var(--text-muted);">100 अंक | 120 मिनट समयसीमा | 3 मुख्य विषय</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
             @foreach($subjects as $sub)
-                <div class="p-6 rounded-2xl panel space-y-4">
+                <div class="p-4 sm:p-6 rounded-2xl panel space-y-4">
                     <div class="flex items-center justify-between">
                         <span class="px-2.5 py-1 rounded-full text-xs font-extrabold" style="background-color: var(--bg-main); color: var(--theme-bg);">
                             {{ $sub->total_marks }} अंक
