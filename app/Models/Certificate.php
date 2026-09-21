@@ -8,8 +8,8 @@ class Certificate extends Model
 {
     protected $fillable = [
         'user_id',
+        'course_id',
         'certificate_code',
-        'course_name',
         'issue_date',
         'score_achieved',
         'is_verified',
@@ -19,6 +19,11 @@ class Certificate extends Model
         'issue_date' => 'date',
         'is_verified' => 'boolean',
     ];
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 
     public function user()
     {

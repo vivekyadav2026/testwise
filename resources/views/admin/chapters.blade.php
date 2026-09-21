@@ -17,6 +17,17 @@
 
     <!-- Chapter List Table -->
     <div class="p-6 rounded-3xl panel space-y-4">
+        <!-- Search Form -->
+        <div class="px-6 pt-6 pb-2">
+            <form method="GET" action="{{ route('admin.chapters') }}" class="flex items-center gap-2 max-w-sm">
+                <input type="text" name="search" value="{{ request('search') }}" placeholder="Search chapters..." class="w-full text-xs px-3 py-2 border rounded-lg focus:outline-none focus:border-gray-900">
+                <button type="submit" class="px-4 py-2 bg-gray-900 text-white rounded-lg text-xs font-bold">Search</button>
+                @if(request('search'))
+                    <a href="{{ route('admin.chapters') }}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg text-xs font-bold">Clear</a>
+                @endif
+            </form>
+        </div>
+
         <div class="overflow-x-auto">
             <table class="w-full text-left text-xs" style="color: var(--text-main);">
                 <thead class="uppercase font-bold" style="background-color: var(--bg-main); color: var(--text-muted); border-bottom: 1px solid var(--border-color);">
@@ -25,11 +36,12 @@
                         <th class="p-3.5">अध्याय का नाम (Hindi & English)</th>
                         <th class="p-3.5">विषय (Subject)</th>
                         <th class="p-3.5">फ्री ट्रायल (Free Preview)</th>
+                        <th class="p-3.5">PDF</th>
                         <th class="p-3.5">एक्शन</th>
                     </tr>
                 </thead>
                 <tbody class="font-medium">
-                    @foreach($chapters as $ch)
+                    @forelse($chapters as $ch)
                         <tr style="border-bottom: 1px solid var(--border-color);">
                             <td class="p-3.5 font-bold font-mono" style="color: var(--text-muted);">{{ sprintf('%02d', $ch->chapter_number) }}</td>
                             <td class="p-3.5">
@@ -49,6 +61,13 @@
                                 @endif
                             </td>
                             <td class="p-3.5">
+                                @if($ch->pdf_url)
+                                    <span class="text-xs text-green-600 font-bold"><i class="fa-solid fa-check"></i> Has PDF</span>
+                                @else
+                                    <span class="text-xs text-gray-400 font-bold">No PDF</span>
+                                @endif
+                            </td>
+                            <td class="p-3.5">
                                 <form action="{{ route('admin.chapters.toggle-free', $ch->id) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="px-3 py-1 rounded-lg text-[11px] font-bold border" style="background-color: var(--bg-main); border-color: var(--border-hard); color: var(--gold-deep);">
@@ -57,9 +76,18 @@
                                 </form>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="6" class="p-6 text-center text-gray-500">No chapters found.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="px-6 py-4">
+            {{ $chapters->links() }}
         </div>
     </div>
 </div>
@@ -74,7 +102,7 @@
             </button>
         </div>
 
-        <form action="{{ route('admin.chapters.store') }}" method="POST" class="space-y-4 text-xs">
+        <form action="{{ route('admin.chapters.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4 text-xs">
             @csrf
             <div class="field">
                 <label>Subject</label>
@@ -98,6 +126,11 @@
             <div class="field">
                 <label>Title (English)</label>
                 <input type="text" name="title_en" placeholder="e.g. Major Industries of MP" required>
+            </div>
+            
+            <div class="field">
+                <label>PDF Notes (Optional)</label>
+                <input type="file" name="pdf_file" accept=".pdf" class="bg-gray-50 border p-2 rounded-xl">
             </div>
 
             <label class="flex items-center gap-2 cursor-pointer" style="justify-content: flex-start !important;">

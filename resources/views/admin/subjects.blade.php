@@ -22,7 +22,8 @@
                 <thead class="uppercase font-bold" style="background-color: var(--bg-main); color: var(--text-muted); border-bottom: 1px solid var(--border-color);">
                     <tr>
                         <th class="p-3.5">#ID</th>
-                        <th class="p-3.5">विषय का नाम (Hindi & English)</th>
+                        <th class="p-3.5">Course</th>
+                        <th class="p-3.5">विषय (Hindi & English)</th>
                         <th class="p-3.5">विषय कोड</th>
                         <th class="p-3.5">कुल अंक</th>
                         <th class="p-3.5">जुड़े हुए चैप्टर्स</th>
@@ -32,6 +33,9 @@
                     @foreach($subjects as $sub)
                         <tr style="border-bottom: 1px solid var(--border-color);">
                             <td class="p-3.5 font-bold font-mono" style="color: var(--text-muted);">{{ sprintf('%02d', $sub->id) }}</td>
+                            <td class="p-3.5 text-[10px] font-bold" style="color: var(--theme-active);">
+                                {{ $sub->course ? $sub->course->title_hi : 'N/A' }}
+                            </td>
                             <td class="p-3.5">
                                 <span class="font-bold block" style="color: var(--text-main) !important;">{{ $sub->name_hi }}</span>
                                 <span class="text-[11px]" style="color: var(--text-muted);">{{ $sub->name_en }}</span>
@@ -64,6 +68,15 @@
         <form action="{{ route('admin.subjects.store') }}" method="POST" class="space-y-4 text-xs">
             @csrf
             
+            <div class="field">
+                <label>Course / Exam</label>
+                <select name="course_id" required>
+                    @foreach($courses as $course)
+                        <option value="{{ $course->id }}">{{ $course->title_hi }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="field">
                 <label>Name (Hindi)</label>
                 <input type="text" name="name_hi" placeholder="e.g. सामान्य ज्ञान" required>

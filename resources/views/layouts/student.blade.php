@@ -46,74 +46,73 @@
 
         body {
             background-color: var(--bg-main) !important;
-            color: var(--text-main) !important;
-            font-family: 'Inter', sans-serif !important;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
         }
 
         h1, h2, h3, h4, .dash-head h1, .display {
-            font-family: 'Space Grotesk', sans-serif !important;
-            letter-spacing: -.01em !important;
-            color: var(--text-main) !important;
-            font-weight: 700 !important;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -.01em;
+            font-weight: 700;
         }
 
         nav a {
-            font-family: 'Space Grotesk', sans-serif !important;
-            font-weight: 600 !important;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
         }
 
         /* Forms Layout & Labels styling */
         form label:not(.inline-flex):not(.flex-row),
         .field label:not(.inline-flex):not(.flex-row) {
-            display: flex !important;
-            justify-content: space-between !important;
-            font-size: 12.5px !important;
-            font-weight: 600 !important;
-            color: var(--text-main) !important;
-            margin-bottom: 7px !important;
-            font-family: 'Inter', sans-serif !important;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 7px;
+            font-family: 'Inter', sans-serif;
         }
 
         /* Global inputs & form elements styling overrides */
         input[type="text"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], input[type="time"], input[type="search"], select, textarea {
-            background-color: var(--bg-card) !important;
-            border: 1px solid var(--border-hard) !important;
-            border-radius: 10px !important;
-            padding: 9px 13px !important;
-            font-size: 13px !important;
-            color: var(--text-main) !important;
-            box-shadow: none !important;
-            transition: all 0.2s ease !important;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-hard);
+            border-radius: 10px;
+            padding: 9px 13px;
+            font-size: 13px;
+            color: var(--text-main);
+            box-shadow: none;
+            transition: all 0.2s ease;
             width: 100%;
         }
 
         input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="date"]:focus, input[type="time"]:focus, input[type="search"]:focus, select:focus, textarea:focus {
-            border-color: var(--gold) !important;
-            outline: none !important;
-            box-shadow: 0 0 0 3px rgba(217, 154, 43, 0.15) !important;
-            background-color: #FFFFFF !important;
+            border-color: var(--gold);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(217, 154, 43, 0.15);
+            background-color: #FFFFFF;
         }
 
         /* Buttons styling */
         .btn {
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 7px !important;
-            font-family: 'Space Grotesk', sans-serif !important;
-            font-weight: 700 !important;
-            border-radius: 10px !important;
-            padding: 9px 18px !important;
-            font-size: 13px !important;
-            transition: all 0.2s ease !important;
-            cursor: pointer !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            border-radius: 10px;
+            padding: 9px 18px;
+            font-size: 13px;
+            transition: all 0.2s ease;
+            cursor: pointer;
         }
 
         .btn-gold, .btn-primary {
             background-color: var(--gold) !important;
             color: #17233F !important;
-            border: none !important;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+            border: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         .btn-gold:hover, .btn-primary:hover {
             background-color: var(--gold-deep) !important;
@@ -121,28 +120,22 @@
         }
 
         .btn-secondary {
-            background-color: #FFFFFF !important;
-            color: var(--text-main) !important;
-            border: 1px solid var(--border-hard) !important;
+            background-color: #FFFFFF;
+            color: var(--text-main);
+            border: 1px solid var(--border-hard);
         }
         .btn-secondary:hover {
-            background-color: var(--bg-main) !important;
-            border-color: var(--text-muted) !important;
+            background-color: var(--bg-main);
+            border-color: var(--text-muted);
         }
 
         /* Table & Panels styling */
-        .panel, .card, div[class*="bg-white rounded"], div[class*="bg-slate-900"], div[class*="bg-slate-800"] {
-            background: var(--bg-card) !important;
-            border: 1px solid var(--border-color) !important;
-            border-radius: var(--radius) !important;
-            box-shadow: var(--shadow) !important;
-            color: var(--text-main) !important;
+        .panel, .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
         }
-        
-        /* overriding specific classes used in existing views */
-        .text-slate-300, .text-slate-400 { color: var(--text-muted) !important; }
-        .text-slate-100, .text-slate-200, .text-white { color: var(--text-main) !important; }
-        .border-slate-800 { border-color: var(--border-color) !important; }
 
         .sidebar-expanded { width: 16rem !important; }
         .sidebar-collapsed { width: 4.5rem !important; }
@@ -205,13 +198,17 @@
 
                 <div class="mt-2 h-0 flex-1 overflow-y-auto">
                     <nav class="space-y-1 px-2">
+                        <a href="{{ route('student.my-courses') }}" class="sidebar-item {{ request()->routeIs('student.my-courses') ? 'active' : '' }}">
+                            <i class="fa-solid fa-layer-group w-4 text-center"></i>
+                            <span>My Courses</span>
+                        </a>
                         <a href="{{ route('student.dashboard') }}" class="sidebar-item {{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
-                            <i class="fa-solid fa-house w-4 text-center"></i>
-                            <span>Dashboard</span>
+                            <i class="fa-solid fa-chart-pie w-4 text-center"></i>
+                            <span>Course Overview</span>
                         </a>
                         <a href="{{ route('student.chapter-tests') }}" class="sidebar-item {{ request()->routeIs('student.chapter-tests') || request()->routeIs('student.course') ? 'active' : '' }}">
                             <i class="fa-solid fa-book-open w-4 text-center"></i>
-                            <span>My Course</span>
+                            <span>Syllabus & Notes</span>
                         </a>
                         <a href="{{ route('student.mock-tests') }}" class="sidebar-item {{ request()->routeIs('student.mock-tests') ? 'active' : '' }}">
                             <i class="fa-solid fa-clock-rotate-left w-4 text-center"></i>
@@ -291,13 +288,17 @@
                 </div>
 
                 <nav class="mt-2 flex-1 space-y-1 px-2">
+                    <a href="{{ route('student.my-courses') }}" class="sidebar-item {{ request()->routeIs('student.my-courses') ? 'active' : '' }}">
+                        <i class="fa-solid fa-layer-group w-4 text-center"></i>
+                        <span>My Courses</span>
+                    </a>
                     <a href="{{ route('student.dashboard') }}" class="sidebar-item {{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
-                        <i class="fa-solid fa-house w-4 text-center"></i>
-                        <span>Dashboard</span>
+                        <i class="fa-solid fa-chart-pie w-4 text-center"></i>
+                        <span>Course Overview</span>
                     </a>
                     <a href="{{ route('student.chapter-tests') }}" class="sidebar-item {{ request()->routeIs('student.chapter-tests') || request()->routeIs('student.course') ? 'active' : '' }}">
                         <i class="fa-solid fa-book-open w-4 text-center"></i>
-                        <span>My Course</span>
+                        <span>Syllabus & Notes</span>
                     </a>
                     <a href="{{ route('student.mock-tests') }}" class="sidebar-item {{ request()->routeIs('student.mock-tests') ? 'active' : '' }}">
                         <i class="fa-solid fa-clock-rotate-left w-4 text-center"></i>
@@ -364,15 +365,33 @@
                 <i class="fa-solid fa-bars text-xl"></i>
             </button>
             <div class="flex flex-1 justify-between px-4 items-center">
-                <div class="flex items-center">
-                    <h2 class="text-lg font-bold text-gray-800 hidden sm:block" style="color: var(--text-main) !important;">MP Police GD 2026 Student</h2>
+                <div class="flex items-center gap-3">
+                    @php
+                        $activeCourses = \App\Models\Course::where('is_active', true)->get();
+                        $currentCourseId = session('current_course_id') ?? ($user->enrollments()->first()->course_id ?? 1);
+                    @endphp
+                    
+                    <form action="{{ route('student.switch-course') }}" method="POST" class="flex items-center gap-2">
+                        @csrf
+                        <span class="text-xs font-bold text-gray-500 hidden sm:inline"><i class="fa-solid fa-graduation-cap text-[var(--gold-deep)]"></i> Active Exam:</span>
+                        <select name="course_id" onchange="this.form.submit()" class="text-xs font-extrabold py-1.5 px-3 rounded-xl border border-gray-300 bg-gray-50 text-gray-800 focus:outline-none cursor-pointer shadow-sm">
+                            @foreach($activeCourses as $ac)
+                                <option value="{{ $ac->id }}" {{ $ac->id == $currentCourseId ? 'selected' : '' }}>
+                                    {{ $ac->title_hi }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form>
                 </div>
                 <div class="flex items-center gap-3">
-                    @if(!$user->is_pro)
+                    @php
+                        $currentIsPro = $user->isProFor($currentCourseId);
+                    @endphp
+                    @if(!$currentIsPro)
                         <form action="{{ route('student.unlock-pro') }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-gold text-xs">
-                                <i class="fa-solid fa-bolt"></i> Unlock Course ₹499
+                            <button type="submit" class="btn btn-gold text-xs shadow-sm">
+                                <i class="fa-solid fa-bolt"></i> Unlock Pro ₹499
                             </button>
                         </form>
                     @else

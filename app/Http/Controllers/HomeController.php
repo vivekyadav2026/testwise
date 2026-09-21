@@ -12,21 +12,37 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $subjects = Subject::withCount('chapters')->orderBy('order')->get();
-        $chapters = Chapter::with('subject')->orderBy('chapter_number')->get();
+        $courses = \App\Models\Course::where('is_active', true)->get();
+        $totalExams = $courses->count();
         $freeChaptersCount = Chapter::where('is_free_preview', true)->count();
         $mockTestsCount = MockTest::count();
 
-        return view('welcome', compact('subjects', 'chapters', 'freeChaptersCount', 'mockTestsCount'));
+        return view('welcome', compact('courses', 'totalExams', 'freeChaptersCount', 'mockTestsCount'));
     }
 
-    public function courses()
+    public function courses(Request $request)
     {
-        $subjects = Subject::with(['chapters' => function($query) {
-            $query->orderBy('chapter_number');
-        }])->orderBy('order')->get();
+        $query = \App\Models\Course::where('is_active', true);
 
-        return view('courses', compact('subjects'));
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function($q) use ($search) {
+                $q->where('title_hi', 'LIKE', "%{$search}%")
+                  ->orWhere('title_en', 'LIKE', "%{$search}%")
+                  ->orWhere('description_hi', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $courses = $query->paginate(6)->withQueryString();
+
+        return view('courses', compact('courses'));
+    }
+
+    public function examDetails($slug)
+    {
+        $course = \App\Models\Course::where('slug', $slug)->firstOrFail();
+        // You could create a dedicated exam-details view or pass it to exam-info
+        return view('exam-details', compact('course'));
     }
 
     public function freeContent()

@@ -1,52 +1,48 @@
 @extends('layouts.student')
 
-@section('title', 'Course Syllabus & Chapter Tests - Testwise MP Police GD 2026')
+@section('title', ($course->title_hi ?? 'Course') . ' - Course Syllabus & Chapter Tests')
 
 @section('content')
-<div class="space-y-8">
+<div class="space-y-6">
     
     <!-- Hero Header Banner -->
     <div class="p-6 sm:p-8 rounded-3xl panel space-y-4">
         <div class="flex items-center gap-2 text-xs font-extrabold uppercase tracking-widest" style="color: var(--theme-active);">
             <span class="w-2 h-2 rounded-full animate-pulse" style="background-color: var(--theme-active);"></span>
-            MP POLICE GD 2026 COURSE SYLLABUS
+            {{ strtoupper($course->title_hi ?? 'EXAM') }} COURSE SYLLABUS
         </div>
-        <h1 class="text-2xl sm:text-3xl font-black" style="color: var(--text-main) !important;">Complete Course Syllabus & Chapter Tests</h1>
-        <p class="text-xs sm:text-sm" style="color: var(--text-muted);">नवीनतम MPESB ब्लू प्रिंट के आधार पर 32 अध्यायों का सिद्धांत (Notes) एवं वस्तुनिष्ठ परीक्षण (Chapter Tests)</p>
+        <h1 class="text-2xl sm:text-3xl font-black" style="color: var(--text-main) !important;">{{ $course->title_hi ?? 'Course' }} - Notes & Chapter Tests</h1>
+        <p class="text-xs sm:text-sm" style="color: var(--text-muted);">{{ $course->description_hi ?? 'Complete webbook notes and interactive practice tests.' }}</p>
 
         <!-- Progress stats indicator -->
         <div class="pt-2 flex items-center gap-4 text-xs border-t" style="border-color: var(--border-color); margin-top: 10px; padding-top: 10px;">
             <span class="flex items-center gap-1.5 font-bold" style="color: var(--teal);">
-                <i class="fa-solid fa-circle-check"></i> {{ count($userAttempts) }} अध्याय पूर्ण
+                <i class="fa-solid fa-circle-check"></i> {{ count($userAttempts) }} Completed
             </span>
             <span class="flex items-center gap-1.5 font-bold" style="color: var(--text-muted);">
-                <i class="fa-solid fa-clock"></i> {{ 32 - count($userAttempts) }} शेष अध्याय
+                <i class="fa-solid fa-clock"></i> {{ max(0, $totalCourseChapters - count($userAttempts)) }} Remaining
             </span>
         </div>
     </div>
 
-    <!-- Subject Filter Tabs -->
+    <!-- Subject Filter Tabs (DYNAMIC) -->
     <div class="flex flex-wrap items-center gap-2 pb-2" style="border-bottom: 1px solid var(--border-color);">
         <a href="{{ route('student.chapter-tests', ['subject' => 'all']) }}" class="px-4 py-2 rounded-xl text-xs font-bold transition {{ $selectedSubject === 'all' ? 'btn-gold shadow-md' : 'border' }}" style="{{ $selectedSubject !== 'all' ? 'background-color: var(--bg-card); border-color: var(--border-hard); color: var(--text-main);' : '' }}">
-            All Chapters (32)
+            All Chapters ({{ $totalCourseChapters }})
         </a>
-        <a href="{{ route('student.chapter-tests', ['subject' => 'gk']) }}" class="px-4 py-2 rounded-xl text-xs font-bold transition {{ $selectedSubject === 'gk' ? 'btn-gold shadow-md' : 'border' }}" style="{{ $selectedSubject !== 'gk' ? 'background-color: var(--bg-card); border-color: var(--border-hard); color: var(--text-main);' : '' }}">
-            General Knowledge (10)
-        </a>
-        <a href="{{ route('student.chapter-tests', ['subject' => 'reasoning']) }}" class="px-4 py-2 rounded-xl text-xs font-bold transition {{ $selectedSubject === 'reasoning' ? 'btn-gold shadow-md' : 'border' }}" style="{{ $selectedSubject !== 'reasoning' ? 'background-color: var(--bg-card); border-color: var(--border-hard); color: var(--text-main);' : '' }}">
-            Reasoning (10)
-        </a>
-        <a href="{{ route('student.chapter-tests', ['subject' => 'math_science']) }}" class="px-4 py-2 rounded-xl text-xs font-bold transition {{ $selectedSubject === 'math_science' ? 'btn-gold shadow-md' : 'border' }}" style="{{ $selectedSubject !== 'math_science' ? 'background-color: var(--bg-card); border-color: var(--border-hard); color: var(--text-main);' : '' }}">
-            Science & Maths (12)
-        </a>
+        @foreach($subjects as $sub)
+            <a href="{{ route('student.chapter-tests', ['subject' => $sub->code]) }}" class="px-4 py-2 rounded-xl text-xs font-bold transition {{ $selectedSubject === $sub->code ? 'btn-gold shadow-md' : 'border' }}" style="{{ $selectedSubject !== $sub->code ? 'background-color: var(--bg-card); border-color: var(--border-hard); color: var(--text-main);' : '' }}">
+                {{ $sub->name_hi }} ({{ $sub->chapters->count() }})
+            </a>
+        @endforeach
     </div>
 
-    <!-- 32 Chapters List -->
+    <!-- Chapters List -->
     <div class="space-y-3">
-        @foreach($chapters as $ch)
+        @forelse($chapters as $ch)
             @php
                 $attempt = $userAttempts[$ch->id] ?? null;
-                $isUnlocked = $ch->is_free_preview || $user->is_pro;
+                $isUnlocked = $ch->is_free_preview || $isPro;
             @endphp
 
             <div class="p-4 sm:p-5 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition" style="background-color: var(--bg-card); border-color: var(--border-color);">
@@ -102,7 +98,12 @@
                     @endif
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div class="p-8 text-center rounded-2xl border bg-white" style="border-color: var(--border-color);">
+                <i class="fa-solid fa-book-open text-3xl text-gray-300 mb-2"></i>
+                <p class="text-sm font-bold text-gray-600">No chapters found for this subject.</p>
+            </div>
+        @endforelse
     </div>
 </div>
 @endsection

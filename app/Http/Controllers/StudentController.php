@@ -15,61 +15,109 @@ use Carbon\Carbon;
 
 class StudentController extends Controller
 {
-    private function getStudentUser()
+    protected function getStudentUser()
     {
-        $user = Auth::user();
-        if (!$user) {
-            abort(403, 'Unauthorized. Please login first.');
+        if (!Auth::check() || !Auth::user()->isStudent()) {
+            abort(403, 'Unauthorized access.');
         }
-        return $user;
+        return Auth::user();
     }
 
-    public function dashboard()
+    protected function getCurrentCourse()
     {
         $user = $this->getStudentUser();
+        $courseId = session('current_course_id');
+        
+        if ($courseId) {
+            $course = \App\Models\Course::find($courseId);
+            if ($course) return $course;
+        }
 
-        $totalChapters = Chapter::count();
-        $completedAttempts = TestAttempt::where('user_id', $user->id)->get();
-        $completedChaptersCount = TestAttempt::where('user_id', $user->id)
-            ->where('test_type', 'chapter')
-            ->distinct('chapter_id')
-            ->count();
+        // Fallback to first enrolled course
+        $firstEnrollment = $user->enrollments()->first();
+        if ($firstEnrollment) {
+            return $firstEnrollment->course;
+        }
 
-        $overallAccuracy = $completedAttempts->avg('accuracy_percentage') ?: 0;
-        $totalStudySeconds = $completedAttempts->sum('time_taken_seconds');
+        // Fallback to default course (ID 1)
+        return \App\Models\Course::first();
+    }
+
+    public function myCourses(Request $request)
+    {
+        $user = $this->getStudentUser();
+        // Fetch courses the student is enrolled in
+        $enrollments = $user->enrollments()->with('course')->get();
+        // Or if you want to show all active courses with lock/unlock status
+        $courses = \App\Models\Course::where('is_active', true)->get();
+        
+        return view('student.my-courses', compact('user', 'enrollments', 'courses'));
+    }
+
+    public function dashboard(Request $request)
+    {
+        $user = $this->getStudentUser();
+        $course = $this->getCurrentCourse();
+
+        // 1. Get Course Content
+        $subjects = Subject::where('course_id', $course->id)->with('chapters')->orderBy('order')->get();
+        $totalChapters = Chapter::whereHas('subject', function($q) use ($course) {
+            $q->where('course_id', $course->id);
+        })->count();
+        $totalMocks = MockTest::where('course_id', $course->id)->count();
+
+        // 2. Get User Progress for this course
+        $attempts = TestAttempt::where('user_id', $user->id)
+            ->where(function($query) use ($course) {
+                $query->whereHas('chapter.subject', function($q) use ($course) {
+                    $q->where('course_id', $course->id);
+                })->orWhereHas('mockTest', function($q) use ($course) {
+                    $q->where('course_id', $course->id);
+                });
+            })
+            ->get();
+            
+        $completedChaptersCount = $attempts->where('test_type', 'chapter')->unique('chapter_id')->count();
+
+        $overallAccuracy = $attempts->avg('accuracy_percentage') ?: 0;
+        $totalStudySeconds = $attempts->sum('time_taken_seconds');
         $totalStudyMinutes = floor($totalStudySeconds / 60);
 
-        $mockTests = MockTest::orderBy('test_number')->get();
-        $mockAttempts = TestAttempt::where('user_id', $user->id)
-            ->where('test_type', 'full_mock')
-            ->get()
-            ->keyBy('mock_test_id');
+        $mockTests = MockTest::where('course_id', $course->id)->orderBy('test_number')->get();
+        $mockAttempts = $attempts->where('test_type', 'full_mock')->keyBy('mock_test_id');
 
-        $subjects = Subject::with('chapters')->get();
         foreach ($subjects as $sub) {
             $chapterIds = $sub->chapters->pluck('id');
-            $done = TestAttempt::where('user_id', $user->id)
-                ->whereIn('chapter_id', $chapterIds)
-                ->distinct('chapter_id')
-                ->count();
+            $done = $attempts->whereIn('chapter_id', $chapterIds)->unique('chapter_id')->count();
             $sub->completed_chapters = $done;
             $sub->total_count = $sub->chapters->count();
             $sub->percentage = $sub->total_count > 0 ? round(($done / $sub->total_count) * 100) : 0;
         }
 
         $recentAttempts = TestAttempt::where('user_id', $user->id)
+            ->where(function($query) use ($course) {
+                $query->whereHas('chapter.subject', function($q) use ($course) {
+                    $q->where('course_id', $course->id);
+                })->orWhereHas('mockTest', function($q) use ($course) {
+                    $q->where('course_id', $course->id);
+                });
+            })
             ->with(['chapter', 'mockTest'])
             ->latest()
             ->take(5)
             ->get();
 
-        $certificate = Certificate::where('user_id', $user->id)->first();
+        $certificate = Certificate::where('user_id', $user->id)->where('course_id', $course->id)->first();
+        
+        // Pass course along with user
+        $isPro = $user->isProFor($course->id);
 
-        // Weak topics count
-        $weakCount = 2; // e.g. MP Rivers & Speed Distance
+        $weakCount = 2; // Stub
 
         return view('student.dashboard', compact(
             'user',
+            'course',
+            'isPro',
             'totalChapters',
             'completedChaptersCount',
             'overallAccuracy',
@@ -86,25 +134,61 @@ class StudentController extends Controller
     public function course(Request $request)
     {
         $user = $this->getStudentUser();
+        $course = $this->getCurrentCourse();
+        $isPro = $user->isProFor($course->id);
 
         $selectedSubject = $request->input('subject', 'all');
-        $query = Chapter::with('subject')->orderBy('chapter_number');
+        
+        $subjects = Subject::where('course_id', $course->id)->orderBy('order')->get();
+        
+        $query = Chapter::whereHas('subject', function($q) use ($course) {
+            $q->where('course_id', $course->id);
+        })->with('subject')->orderBy('chapter_number');
 
         if ($selectedSubject !== 'all') {
-            $query->whereHas('subject', function($q) use ($selectedSubject) {
-                $q->where('code', $selectedSubject);
+            $query->whereHas('subject', function($q) use ($selectedSubject, $course) {
+                $q->where('course_id', $course->id)->where('code', $selectedSubject);
             });
         }
 
         $chapters = $query->get();
-        $subjects = Subject::orderBy('order')->get();
+        $totalCourseChapters = Chapter::whereHas('subject', function($q) use ($course) {
+            $q->where('course_id', $course->id);
+        })->count();
 
         $userAttempts = TestAttempt::where('user_id', $user->id)
             ->where('test_type', 'chapter')
+            ->whereHas('chapter.subject', function($q) use ($course) {
+                $q->where('course_id', $course->id);
+            })
             ->get()
             ->keyBy('chapter_id');
 
-        return view('student.chapter-tests', compact('user', 'chapters', 'subjects', 'selectedSubject', 'userAttempts'));
+        return view('student.chapter-tests', compact(
+            'user',
+            'course',
+            'isPro',
+            'chapters',
+            'subjects',
+            'selectedSubject',
+            'userAttempts',
+            'totalCourseChapters'
+        ));
+    }
+
+    public function switchCourse(Request $request)
+    {
+        $courseId = $request->input('course_id');
+        if ($courseId) {
+            session(['current_course_id' => $courseId]);
+        }
+        
+        // If coming from my-courses, go to syllabus (course view)
+        if (str_contains(url()->previous(), 'my-courses')) {
+            return redirect()->route('student.course')->with('success', 'Course activated successfully.');
+        }
+        
+        return redirect()->back()->with('success', 'Course switched successfully.');
     }
 
     public function readNotes($id)
@@ -122,13 +206,19 @@ class StudentController extends Controller
     public function mockTests()
     {
         $user = $this->getStudentUser();
-        $mockTests = MockTest::orderBy('test_number')->get();
+        $course = $this->getCurrentCourse();
+        $isPro = $user->isProFor($course->id);
+
+        $mockTests = MockTest::where('course_id', $course->id)->orderBy('test_number')->get();
         $userAttempts = TestAttempt::where('user_id', $user->id)
             ->where('test_type', 'full_mock')
+            ->whereHas('mockTest', function($q) use ($course) {
+                $q->where('course_id', $course->id);
+            })
             ->get()
             ->keyBy('mock_test_id');
 
-        return view('student.mock-tests', compact('user', 'mockTests', 'userAttempts'));
+        return view('student.mock-tests', compact('user', 'course', 'isPro', 'mockTests', 'userAttempts'));
     }
 
     public function takeCbtTest($type, $id)

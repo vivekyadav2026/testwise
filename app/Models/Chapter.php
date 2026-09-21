@@ -17,6 +17,7 @@ class Chapter extends Model
         'total_questions',
         'notes_content_hi',
         'notes_content_en',
+        'pdf_url',
         'order',
     ];
 

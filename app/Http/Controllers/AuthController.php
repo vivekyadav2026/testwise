@@ -14,7 +14,7 @@ class AuthController extends Controller
         if (Auth::check()) {
             return Auth::user()->isAdmin()
                 ? redirect()->route('admin.dashboard')
-                : redirect()->route('student.dashboard');
+                : redirect()->route('student.my-courses');
         }
         return view('auth.login');
     }
@@ -32,7 +32,7 @@ class AuthController extends Controller
             if (Auth::user()->isAdmin()) {
                 return redirect()->intended(route('admin.dashboard'));
             }
-            return redirect()->intended(route('student.dashboard'));
+            return redirect()->intended(route('student.my-courses'));
         }
 
         return back()->withErrors([
@@ -43,7 +43,7 @@ class AuthController extends Controller
     public function showRegister()
     {
         if (Auth::check()) {
-            return redirect()->route('student.dashboard');
+            return redirect()->route('student.my-courses');
         }
         return view('auth.register');
     }
@@ -68,7 +68,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('student.dashboard')->with('success', 'Account created successfully! Welcome to Testwise.');
+        return redirect()->route('student.my-courses')->with('success', 'Account created successfully! Welcome to Testwise.');
     }
 
     public function switchRole(Request $request, $role)
@@ -83,7 +83,7 @@ class AuthController extends Controller
             $student = User::where('email', 'rahul.sharma@testwise.edu')->first() ?: User::where('role', 'student')->first();
             if ($student) {
                 Auth::login($student);
-                return redirect()->route('student.dashboard')->with('success', 'Switched to Student Portal.');
+                return redirect()->route('student.my-courses')->with('success', 'Switched to Student Portal.');
             }
         }
         return redirect()->back();

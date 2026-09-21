@@ -115,22 +115,26 @@ class AdminController extends Controller
     public function subjects()
     {
         $this->checkAdminAccess();
-        $subjects = Subject::with('chapters')->get();
-        return view('admin.subjects', compact('subjects'));
+        $query = Subject::query();
+        $subjects = $query->with('chapters')->orderBy('order')->paginate(10);
+        $courses = \App\Models\Course::where('is_active', true)->get();
+
+        return view('admin.subjects', compact('subjects', 'courses'));
     }
 
     public function storeSubject(Request $request)
     {
         $this->checkAdminAccess();
         $validated = $request->validate([
-            'name_hi' => 'required',
-            'name_en' => 'required',
-            'code' => 'required|unique:subjects',
-            'total_marks' => 'required|numeric',
+            'course_id' => 'required|exists:courses,id',
+            'name_hi' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
+            'code' => 'required|string|unique:subjects',
+            'total_marks' => 'required|integer',
         ]);
 
         Subject::create($validated);
-        return redirect()->back()->with('success', 'नया विषय सफलतापूर्वक जोड़ दिया गया है!');
+        return redirect()->back()->with('success', 'Subject created successfully.');
     }
 
     public function updateSubject(Request $request, $id)
@@ -139,14 +143,15 @@ class AdminController extends Controller
         $subject = Subject::findOrFail($id);
         
         $validated = $request->validate([
-            'name_hi' => 'required',
-            'name_en' => 'required',
-            'code' => 'required|unique:subjects,code,' . $subject->id,
-            'total_marks' => 'required|numeric',
+            'course_id' => 'required|exists:courses,id',
+            'name_hi' => 'required|string|max:255',
+            'name_en' => 'required|string|max:255',
+            'code' => 'required|string|unique:subjects,code,' . $subject->id,
+            'total_marks' => 'required|integer',
         ]);
 
         $subject->update($validated);
-        return redirect()->back()->with('success', 'विषय अपडेट कर दिया गया है।');
+        return redirect()->back()->with('success', 'Subject updated successfully.');
     }
 
     public function destroySubject($id)
@@ -156,10 +161,18 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'विषय डिलीट कर दिया गया है।');
     }
 
-    public function chapters()
+    public function chapters(Request $request)
     {
         $this->checkAdminAccess();
-        $chapters = Chapter::with('subject')->orderBy('chapter_number')->get();
+        $query = Chapter::with('subject');
+        
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('title_hi', 'LIKE', "%{$search}%")
+                  ->orWhere('title_en', 'LIKE', "%{$search}%");
+        }
+        
+        $chapters = $query->orderBy('chapter_number')->paginate(15);
         $subjects = Subject::all();
 
         return view('admin.chapters', compact('chapters', 'subjects'));
@@ -184,7 +197,14 @@ class AdminController extends Controller
             'title_hi' => 'required|string',
             'title_en' => 'required|string',
             'is_free_preview' => 'nullable',
+            'pdf_file' => 'nullable|file|mimes:pdf|max:20480',
         ]);
+
+        $pdfUrl = null;
+        if ($request->hasFile('pdf_file')) {
+            $path = $request->file('pdf_file')->store('chapter_pdfs', 'public');
+            $pdfUrl = 'storage/' . $path;
+        }
 
         Chapter::create([
             'subject_id' => $validated['subject_id'],
@@ -194,6 +214,7 @@ class AdminController extends Controller
             'is_free_preview' => isset($validated['is_free_preview']),
             'duration_minutes' => 25,
             'total_questions' => 15,
+            'pdf_url' => $pdfUrl,
             'notes_content_hi' => '<h3>' . $validated['title_hi'] . '</h3><p>नवीनतम MP Police GD 2026 पाठ्यक्रम के अनुसार तैयार की गई अध्ययन सामग्री।</p>',
         ]);
 
@@ -210,7 +231,13 @@ class AdminController extends Controller
             'chapter_number' => 'required|integer',
             'title_hi' => 'required|string',
             'title_en' => 'required|string',
+            'pdf_file' => 'nullable|file|mimes:pdf|max:20480',
         ]);
+
+        if ($request->hasFile('pdf_file')) {
+            $path = $request->file('pdf_file')->store('chapter_pdfs', 'public');
+            $chapter->pdf_url = 'storage/' . $path;
+        }
 
         $chapter->update([
             'subject_id' => $validated['subject_id'],
@@ -218,6 +245,7 @@ class AdminController extends Controller
             'title_hi' => $validated['title_hi'],
             'title_en' => $validated['title_en'],
             'is_free_preview' => $request->has('is_free_preview'),
+            'pdf_url' => $chapter->pdf_url,
         ]);
         return redirect()->back()->with('success', 'चैप्टर अपडेट कर दिया गया है।');
     }
@@ -280,15 +308,16 @@ class AdminController extends Controller
     public function mockTests()
     {
         $this->checkAdminAccess();
-        $mockTests = MockTest::withCount('questions')->orderBy('test_number')->get();
-
-        return view('admin.mock-tests', compact('mockTests'));
+        $mockTests = MockTest::orderBy('test_number')->paginate(10);
+        $courses = \App\Models\Course::where('is_active', true)->get();
+        return view('admin.mock-tests', compact('mockTests', 'courses'));
     }
 
     public function storeMockTest(Request $request)
     {
         $this->checkAdminAccess();
         $validated = $request->validate([
+            'course_id' => 'required|exists:courses,id',
             'test_number' => 'required|integer',
             'title_hi' => 'required',
             'title_en' => 'required',
@@ -297,6 +326,7 @@ class AdminController extends Controller
         ]);
 
         MockTest::create([
+            'course_id' => $validated['course_id'],
             'test_number' => $validated['test_number'],
             'title_hi' => $validated['title_hi'],
             'title_en' => $validated['title_en'],
@@ -315,11 +345,14 @@ class AdminController extends Controller
         $mockTest = MockTest::findOrFail($id);
         
         $validated = $request->validate([
+            'course_id' => 'required|exists:courses,id',
             'test_number' => 'required|integer',
-            'title_hi' => 'required',
-            'title_en' => 'required',
+            'title_hi' => 'required|string|max:255',
+            'title_en' => 'required|string|max:255',
             'duration_minutes' => 'required|integer',
             'total_questions' => 'required|integer',
+            'total_marks' => 'required|integer',
+            'description_hi' => 'nullable|string',
         ]);
 
         $mockTest->update($validated);
@@ -533,6 +566,68 @@ class AdminController extends Controller
     {
         $this->checkAdminAccess();
         Certificate::findOrFail($id)->delete();
-        return redirect()->back()->with('success', 'प्रमाणपत्र सफलतापूर्वक डिलीट किया गया।');
+        return redirect()->back()->with('success', 'Certificate deleted successfully.');
+    }
+
+    // --- COURSES ---
+    public function courses(Request $request)
+    {
+        $this->checkAdminAccess();
+        
+        $query = \App\Models\Course::query();
+        
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('title_hi', 'LIKE', "%{$search}%")
+                  ->orWhere('title_en', 'LIKE', "%{$search}%");
+        }
+        
+        $courses = $query->latest()->paginate(10);
+        return view('admin.courses', compact('courses'));
+    }
+
+    public function storeCourse(Request $request)
+    {
+        $this->checkAdminAccess();
+        $validated = $request->validate([
+            'title_hi' => 'required|string',
+            'title_en' => 'nullable|string',
+            'slug' => 'required|string|unique:courses',
+            'price' => 'required|numeric',
+            'discounted_price' => 'nullable|numeric',
+            'description_hi' => 'nullable|string',
+            'is_active' => 'boolean',
+        ]);
+
+        $validated['is_active'] = $request->has('is_active');
+
+        \App\Models\Course::create($validated);
+        return redirect()->back()->with('success', 'Course created successfully.');
+    }
+
+    public function updateCourse(Request $request, $id)
+    {
+        $this->checkAdminAccess();
+        $course = \App\Models\Course::findOrFail($id);
+
+        $validated = $request->validate([
+            'title_hi' => 'required|string',
+            'title_en' => 'nullable|string',
+            'slug' => 'required|string|unique:courses,slug,' . $course->id,
+            'price' => 'required|numeric',
+            'discounted_price' => 'nullable|numeric',
+            'description_hi' => 'nullable|string',
+        ]);
+
+        $validated['is_active'] = $request->has('is_active');
+        $course->update($validated);
+        return redirect()->back()->with('success', 'Course updated successfully.');
+    }
+
+    public function destroyCourse($id)
+    {
+        $this->checkAdminAccess();
+        \App\Models\Course::findOrFail($id)->delete();
+        return redirect()->back()->with('success', 'Course deleted successfully.');
     }
 }

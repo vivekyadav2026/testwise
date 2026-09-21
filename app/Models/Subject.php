@@ -16,6 +16,11 @@ class Subject extends Model
         'order',
     ];
 
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
+
     public function chapters()
     {
         return $this->hasMany(Chapter::class)->orderBy('order');

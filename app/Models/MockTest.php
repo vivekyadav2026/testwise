@@ -21,6 +21,11 @@ class MockTest extends Model
         'is_free' => 'boolean',
     ];
 
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
+
     public function questions()
     {
         return $this->hasMany(Question::class);

@@ -8,7 +8,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- FontAwesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -17,103 +17,101 @@
 
     <style>
         :root {
-            /* Theme bases from BussinessManagement style guide */
-            --bg-main: #F3F5F3;
+            --bg-main: #F8FAFC;
             --bg-card: #FFFFFF;
-            --border-color: #EBECE6;
-            --border-hard: #DFE1DA;
-            --text-main: #17233F;
-            --text-muted: #4B5670;
-            --text-faint: #8991A5;
+            --border-color: #E2E8F0;
+            --border-hard: #CBD5E1;
+            --text-main: #0F172A;
+            --text-muted: #64748B;
+            --text-faint: #94A3B8;
 
-            --gold: #D99A2B;
-            --gold-deep: #B87F1B;
-            --teal: #146356;
-            --teal-soft: #E4F0EC;
-            --rose: #AE3B34;
-            --rose-soft: #F5E6E4;
-            --radius: 14px;
-            --shadow: 0 1px 2px rgba(23,35,63,.04), 0 8px 24px rgba(23,35,63,.06);
+            --gold: #F59E0B;
+            --gold-deep: #D97706;
+            --teal: #0D9488;
+            --teal-soft: #F0FDFA;
+            --rose: #E11D48;
+            --rose-soft: #FFF1F2;
+            --radius: 16px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 
             /* Sidebar custom variables */
-            --theme-bg: #17233F; /* Deep Navy Ink */
-            --theme-text: #8991A5;
-            --theme-active: #D99A2B; /* Khatabook Gold */
-            --theme-active-text: #17233F;
-            --theme-hover: rgba(217, 154, 43, 0.12);
-            --theme-hover-text: #ffffff;
+            --theme-bg: #1E293B; /* Slate 800 */
+            --theme-text: #94A3B8;
+            --theme-active: #F59E0B;
+            --theme-active-text: #FFFFFF;
+            --theme-hover: rgba(255, 255, 255, 0.1);
+            --theme-hover-text: #FFFFFF;
         }
 
         body {
             background-color: var(--bg-main) !important;
-            color: var(--text-main) !important;
-            font-family: 'Inter', sans-serif !important;
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         h1, h2, h3, h4, .dash-head h1, .display {
-            font-family: 'Space Grotesk', sans-serif !important;
-            letter-spacing: -.01em !important;
-            color: var(--text-main) !important;
-            font-weight: 700 !important;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -.01em;
+            font-weight: 700;
         }
 
         nav a {
-            font-family: 'Space Grotesk', sans-serif !important;
-            font-weight: 600 !important;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
         }
 
         /* Forms Layout & Labels styling */
         form label:not(.inline-flex):not(.flex-row),
         .field label:not(.inline-flex):not(.flex-row) {
-            display: flex !important;
-            justify-content: space-between !important;
-            font-size: 12.5px !important;
-            font-weight: 600 !important;
-            color: var(--text-main) !important;
-            margin-bottom: 7px !important;
-            font-family: 'Inter', sans-serif !important;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 7px;
+            font-family: 'Inter', sans-serif;
         }
 
         /* Global inputs & form elements styling overrides */
         input[type="text"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], input[type="time"], input[type="search"], select, textarea {
-            background-color: var(--bg-card) !important;
-            border: 1px solid var(--border-hard) !important;
-            border-radius: 10px !important;
-            padding: 9px 13px !important;
-            font-size: 13px !important;
-            color: var(--text-main) !important;
-            box-shadow: none !important;
-            transition: all 0.2s ease !important;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-hard);
+            border-radius: 10px;
+            padding: 9px 13px;
+            font-size: 13px;
+            color: var(--text-main);
+            box-shadow: none;
+            transition: all 0.2s ease;
             width: 100%;
         }
 
         input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="date"]:focus, input[type="time"]:focus, input[type="search"]:focus, select:focus, textarea:focus {
-            border-color: var(--gold) !important;
-            outline: none !important;
-            box-shadow: 0 0 0 3px rgba(217, 154, 43, 0.15) !important;
-            background-color: #FFFFFF !important;
+            border-color: var(--gold);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(217, 154, 43, 0.15);
+            background-color: #FFFFFF;
         }
 
         /* Buttons styling */
         .btn {
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 7px !important;
-            font-family: 'Space Grotesk', sans-serif !important;
-            font-weight: 700 !important;
-            border-radius: 10px !important;
-            padding: 9px 18px !important;
-            font-size: 13px !important;
-            transition: all 0.2s ease !important;
-            cursor: pointer !important;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            border-radius: 10px;
+            padding: 9px 18px;
+            font-size: 13px;
+            transition: all 0.2s ease;
+            cursor: pointer;
         }
 
         .btn-gold, .btn-primary {
             background-color: var(--gold) !important;
             color: #17233F !important;
-            border: none !important;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+            border: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         .btn-gold:hover, .btn-primary:hover {
             background-color: var(--gold-deep) !important;
@@ -121,28 +119,22 @@
         }
 
         .btn-secondary {
-            background-color: #FFFFFF !important;
-            color: var(--text-main) !important;
-            border: 1px solid var(--border-hard) !important;
+            background-color: #FFFFFF;
+            color: var(--text-main);
+            border: 1px solid var(--border-hard);
         }
         .btn-secondary:hover {
-            background-color: var(--bg-main) !important;
-            border-color: var(--text-muted) !important;
+            background-color: var(--bg-main);
+            border-color: var(--text-muted);
         }
 
         /* Table & Panels styling */
-        .panel, .card, div[class*="bg-white rounded"], div[class*="bg-slate-900"] {
-            background: var(--bg-card) !important;
-            border: 1px solid var(--border-color) !important;
-            border-radius: var(--radius) !important;
-            box-shadow: var(--shadow) !important;
-            color: var(--text-main) !important;
+        .panel, .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
         }
-        
-        /* overriding specific classes used in existing views */
-        .bg-slate-800 { background-color: var(--bg-main) !important; border: 1px solid var(--border-color) !important; color: var(--text-main) !important; }
-        .text-slate-300, .text-slate-400 { color: var(--text-muted) !important; }
-        .text-slate-100, .text-slate-200, .text-white { color: var(--text-main) !important; }
 
         .sidebar-expanded { width: 16rem !important; }
         .sidebar-collapsed { width: 4.5rem !important; }
@@ -213,6 +205,11 @@
                         <div class="px-2 mt-6 mb-2">
                             <div class="text-[10px] font-bold uppercase tracking-widest text-[var(--theme-text)]">Content Management</div>
                         </div>
+
+                        <a href="{{ route('admin.courses') }}" class="sidebar-item {{ request()->routeIs('admin.courses') ? 'active' : '' }}">
+                            <i class="fa-solid fa-graduation-cap w-4 text-center"></i>
+                            <span class="sidebar-text">Courses / Exams</span>
+                        </a>
 
                         <a href="{{ route('admin.subjects') }}" class="sidebar-item {{ request()->routeIs('admin.subjects') ? 'active' : '' }}">
                             <i class="fa-solid fa-layer-group w-4 text-center"></i>
@@ -300,6 +297,11 @@
                         <div class="text-[10px] font-bold uppercase tracking-widest text-[var(--theme-text)]">Content Management</div>
                     </div>
 
+                    <a href="{{ route('admin.courses') }}" class="sidebar-item {{ request()->routeIs('admin.courses') ? 'active' : '' }}">
+                        <i class="fa-solid fa-graduation-cap w-4 text-center"></i>
+                        <span class="sidebar-text" x-show="!sidebarCollapsed">Courses / Exams</span>
+                    </a>
+
                     <a href="{{ route('admin.subjects') }}" class="sidebar-item {{ request()->routeIs('admin.subjects') ? 'active' : '' }}">
                         <i class="fa-solid fa-layer-group w-4 text-center"></i>
                         <span>Subjects</span>
@@ -366,11 +368,6 @@
             <div class="flex flex-1 justify-between px-4 items-center">
                 <div class="flex items-center">
                     <h2 class="text-lg font-bold text-gray-800 hidden sm:block" style="color: var(--text-main) !important;">MP Police GD 2026 Admin</h2>
-                </div>
-                <div class="flex items-center gap-3">
-                    <a href="{{ route('login') }}" class="btn btn-gold text-xs">
-                        <i class="fa-solid fa-eye"></i> Student View
-                    </a>
                 </div>
             </div>
         </div>

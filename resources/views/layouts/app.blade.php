@@ -143,7 +143,7 @@
         
         /* overriding specific classes used in existing views */
         .text-slate-300, .text-slate-400 { color: var(--text-muted) !important; }
-        .text-slate-100, .text-slate-200, .text-white { color: var(--text-main) !important; }
+        .text-slate-100, .text-slate-200 { color: var(--text-main) !important; }
         .border-slate-800 { border-color: var(--border-color) !important; }
     </style>
 </head>

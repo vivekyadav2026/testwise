@@ -1,249 +1,227 @@
 @extends('layouts.app')
 
-@section('title', 'Testwise - MP Police Constable GD 2026 Complete Course & Test Engine')
+@section('title', 'Testwise - India\'s Most Advanced Webbook Platform')
 
 @section('content')
-<!-- Hero Section -->
-<section class="relative pt-12 pb-20 overflow-hidden" style="background-color: var(--theme-bg);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .gradient-text {
+        background: linear-gradient(135deg, #17233F 0%, #D99A2B 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .hero-bg {
+        background: radial-gradient(circle at top right, rgba(217, 154, 43, 0.05) 0%, transparent 30%),
+                    radial-gradient(circle at bottom left, rgba(23, 35, 63, 0.03) 0%, transparent 30%);
+        background-color: #F8FAFC;
+    }
+    
+    /* Animations for the Hero Cards */
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+    }
+    @keyframes float-delay {
+        0%, 100% { transform: translateY(0px) scale(0.95); }
+        50% { transform: translateY(-10px) scale(1); }
+    }
+    @keyframes progress-grow {
+        0% { width: 0%; }
+        100% { width: 85%; }
+    }
+    .animate-float { animation: float 5s ease-in-out infinite; }
+    .animate-float-delay { animation: float-delay 6s ease-in-out infinite 1s; }
+    .animate-progress { animation: progress-grow 2s ease-out forwards 0.5s; }
+</style>
+
+<!-- Hero Section (Animated Interactive Cards) -->
+<section class="hero-bg relative py-12 border-b border-gray-200/60 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center gap-10">
+        
+        <!-- Left Content -->
+        <div class="flex-1 space-y-5 text-center md:text-left z-20">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white shadow-sm border border-gray-200 text-xs font-bold tracking-widest uppercase text-gray-700">
+                <span class="w-2 h-2 rounded-full bg-[var(--gold)] animate-pulse"></span>
+                Smarter Way To Prepare
+            </div>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-[1.15] text-[var(--text-main)]">
+                Pass Your Govt Exam <br class="hidden md:block" />
+                With <span class="gradient-text">Interactive Webbooks</span>
+            </h1>
+            <p class="text-sm md:text-base text-gray-600 max-w-lg mx-auto md:mx-0 font-medium leading-relaxed">
+                Ditch the boring PDFs and long videos. Read smart chapter notes, take instant tests, and let our AI track your weak topics automatically. 
+            </p>
+            <div class="flex flex-col sm:flex-row items-center gap-3 justify-center md:justify-start pt-2">
+                <a href="#exams" class="w-full sm:w-auto px-7 py-3.5 rounded-xl text-sm font-extrabold shadow-lg bg-gray-900 hover:bg-gray-800 transition-all flex items-center justify-center gap-2" style="color: #ffffff !important;">
+                    Explore Exams <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="{{ route('free-content') }}" class="w-full sm:w-auto px-7 py-3.5 rounded-xl text-sm font-extrabold text-gray-800 bg-white border border-gray-300 shadow-sm hover:bg-gray-50 transition-all flex items-center justify-center">
+                    Try Free Demo
+                </a>
+            </div>
+            <!-- Trust Badges -->
+            <div class="pt-3 flex items-center justify-center md:justify-start gap-3">
+                <div class="flex -space-x-2">
+                    <img class="w-7 h-7 rounded-full border-2 border-white shadow-sm" src="https://i.pravatar.cc/100?img=1" alt="User">
+                    <img class="w-7 h-7 rounded-full border-2 border-white shadow-sm" src="https://i.pravatar.cc/100?img=2" alt="User">
+                    <img class="w-7 h-7 rounded-full border-2 border-white shadow-sm" src="https://i.pravatar.cc/100?img=3" alt="User">
+                </div>
+                <p class="text-xs text-gray-600 font-bold">Trusted by 100+ students</p>
+            </div>
+        </div>
+
+        <!-- Right Content (Bigger Animated Dashboard Card with Non-Overlapping Badges) -->
+        <div class="flex-1 w-full relative flex justify-center md:justify-end items-center my-6 md:my-0">
+            <!-- Glowing Background Accent -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-[var(--gold)]/20 to-blue-500/20 blur-3xl rounded-full transform scale-110"></div>
             
-            <!-- Left Hero Content -->
-            <div class="lg:col-span-7 space-y-6">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-extrabold tracking-wide uppercase" style="background-color: var(--teal-soft); color: var(--teal); border: 1px solid var(--teal);">
-                    <span class="w-2 h-2 rounded-full animate-pulse" style="background-color: var(--teal);"></span>
-                    MP POLICE GD ONLINE BATCH 2026
-                </div>
-
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight" style="color: white !important;">
-                    MP Police Constable <span style="color: var(--theme-active);">GD 2026</span>
-                </h1>
-
-                <p class="text-lg font-medium leading-relaxed" style="color: rgba(255,255,255,0.7);">
-                    Complete Preparation Course with Chapter-wise Notes & Tests | 32 अध्यायवार नोट्स व 10 फुल सीबीटी मॉक टेस्ट
-                </p>
-
-                <!-- Highlights Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                    <div class="flex items-center gap-2.5 text-sm" style="color: rgba(255,255,255,0.8);">
-                        <div class="w-5 h-5 rounded-full flex items-center justify-center text-xs" style="background-color: rgba(255,255,255,0.1); color: var(--theme-active);">
-                            <i class="fa-solid fa-check"></i>
+            <!-- Outer Relative Box to Position Floating Badges Cleanly -->
+            <div class="relative w-full max-w-lg my-6 px-4">
+                
+                <!-- Main Composite Card Container -->
+                <div class="relative bg-white rounded-2xl border border-gray-200/90 shadow-2xl p-6 md:p-7 space-y-5 animate-float z-10">
+                    
+                    <!-- Header bar -->
+                    <div class="flex items-center justify-between border-b border-gray-100 pb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-900 to-gray-800 text-white flex items-center justify-center font-bold text-base shadow">
+                                <i class="fa-solid fa-graduation-cap"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] font-extrabold text-gray-400 uppercase tracking-wider">Live Mock Result</div>
+                                <div class="text-base font-extrabold text-gray-900">SSC CGL Tier 1</div>
+                            </div>
                         </div>
-                        <span>Complete Written Coverage</span>
-                    </div>
-                    <div class="flex items-center gap-2.5 text-sm" style="color: rgba(255,255,255,0.8);">
-                        <div class="w-5 h-5 rounded-full flex items-center justify-center text-xs" style="background-color: rgba(255,255,255,0.1); color: var(--theme-active);">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                        <span>Chapter-wise Mock Tests</span>
-                    </div>
-                    <div class="flex items-center gap-2.5 text-sm" style="color: rgba(255,255,255,0.8);">
-                        <div class="w-5 h-5 rounded-full flex items-center justify-center text-xs" style="background-color: rgba(255,255,255,0.1); color: var(--theme-active);">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                        <span>Performance Analytics & Weak Topics</span>
-                    </div>
-                    <div class="flex items-center gap-2.5 text-sm" style="color: rgba(255,255,255,0.8);">
-                        <div class="w-5 h-5 rounded-full flex items-center justify-center text-xs" style="background-color: rgba(255,255,255,0.1); color: var(--theme-active);">
-                            <i class="fa-solid fa-check"></i>
-                        </div>
-                        <span>10 Full-length CBT Mocks</span>
-                    </div>
-                </div>
-
-                <!-- CTA Buttons -->
-                <div class="flex flex-wrap gap-4 pt-4">
-                    <a href="{{ route('login') }}" class="btn btn-gold text-sm shadow-xl">
-                        <span>Start Learning Free</span>
-                        <i class="fa-solid fa-arrow-right text-xs"></i>
-                    </a>
-                    <a href="{{ route('courses') }}" class="btn px-6 py-3.5 border text-sm" style="background-color: transparent; border-color: rgba(255,255,255,0.2); color: white;">
-                        View Course Details
-                    </a>
-                </div>
-            </div>
-
-            <!-- Right Hero Card -->
-            <div class="lg:col-span-5">
-                <div class="p-6 sm:p-8 rounded-3xl shadow-2xl space-y-6 relative" style="background-color: white; border: 1px solid var(--border-color);">
-                    <div class="flex items-center justify-between">
-                        <span class="px-3 py-1 rounded-full text-xs font-bold" style="background-color: var(--rose-soft); color: var(--rose); border: 1px solid var(--rose);">
-                            SPECIAL LAUNCH OFFER
+                        <span class="px-3 py-1 text-xs font-extrabold rounded-full bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center gap-1.5 shadow-sm">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> 85% Score
                         </span>
-                        <span class="text-xs" style="color: var(--text-muted);">Limited Seats Available</span>
                     </div>
 
-                    <div class="space-y-1">
-                        <h3 class="text-xl font-extrabold" style="color: var(--text-main) !important;">MP Police GD Complete Pass</h3>
-                        <p class="text-xs" style="color: var(--text-muted);">32 अध्यायों के नोट्स, टेस्ट और 10 फुल सीबीटी मॉक टेस्ट का एक्सेस</p>
-                    </div>
-
-                    <div class="flex items-baseline gap-3">
-                        <span class="text-4xl font-black" style="color: var(--text-main) !important;">₹499</span>
-                        <span class="text-lg line-through" style="color: var(--text-muted);">₹1,499</span>
-                        <span class="px-2 py-0.5 rounded text-xs font-bold" style="background-color: var(--teal-soft); color: var(--teal);">66% OFF</span>
-                    </div>
-
-                    <form action="{{ route('student.unlock-pro') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="w-full py-3.5 btn btn-gold text-sm font-extrabold justify-center gap-2">
-                            <i class="fa-solid fa-bolt"></i> Unlock Course Now (₹499)
-                        </button>
-                    </form>
-
-                    <div class="pt-2 grid grid-cols-2 gap-2 text-xs" style="border-top: 1px solid var(--border-color); color: var(--text-muted);">
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-infinity" style="color: var(--gold-deep);"></i>
-                            <span>1 Year Full Validity</span>
+                    <!-- Simulated Subject Progress Bars -->
+                    <div class="space-y-4 pt-1">
+                        <div>
+                            <div class="flex justify-between text-xs md:text-sm font-bold mb-1.5 text-gray-800">
+                                <span>Quantitative Aptitude</span>
+                                <span class="text-blue-600 font-extrabold">92%</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-blue-600 h-2.5 rounded-full animate-progress" style="width: 92%;"></div>
+                            </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fa-solid fa-mobile-screen-button" style="color: var(--gold-deep);"></i>
-                            <span>Mobile & PC Access</span>
+
+                        <div>
+                            <div class="flex justify-between text-xs md:text-sm font-bold mb-1.5 text-gray-800">
+                                <span>General Intelligence</span>
+                                <span class="text-[var(--gold-deep)] font-extrabold">88%</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-[var(--gold)] h-2.5 rounded-full animate-progress" style="width: 88%; animation-delay: 0.3s;"></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between text-xs md:text-sm font-bold mb-1.5 text-gray-800">
+                                <span>General Awareness</span>
+                                <span class="text-emerald-600 font-extrabold">78%</span>
+                            </div>
+                            <div class="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+                                <div class="bg-emerald-500 h-2.5 rounded-full animate-progress" style="width: 78%; animation-delay: 0.6s;"></div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- Quick Stats Bar -->
-<section class="py-10" style="background-color: var(--bg-card); border-bottom: 1px solid var(--border-color);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-        <div class="p-4 rounded-2xl space-y-1 panel">
-            <div class="text-3xl font-black" style="color: var(--theme-bg);">32</div>
-            <div class="text-xs font-bold" style="color: var(--text-muted);">अध्यायवार नोट्स (Notes)</div>
-        </div>
-        <div class="p-4 rounded-2xl space-y-1 panel">
-            <div class="text-3xl font-black" style="color: var(--theme-bg);">32</div>
-            <div class="text-xs font-bold" style="color: var(--text-muted);">चैप्टर प्रैक्टिस टेस्ट</div>
-        </div>
-        <div class="p-4 rounded-2xl space-y-1 panel">
-            <div class="text-3xl font-black" style="color: var(--theme-active);">10</div>
-            <div class="text-xs font-bold" style="color: var(--text-muted);">फुल मॉक टेस्ट (CBT)</div>
-        </div>
-        <div class="p-4 rounded-2xl space-y-1 panel">
-            <div class="text-3xl font-black" style="color: var(--teal);">100%</div>
-            <div class="text-xs font-bold" style="color: var(--text-muted);">नवीनतम परीक्षा पैटर्न</div>
-        </div>
-    </div>
-</section>
-
-<!-- Course Overview -->
-<section class="py-16" style="background-color: var(--bg-main);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div class="text-center max-w-3xl mx-auto space-y-3">
-            <h2 class="text-3xl font-extrabold" style="color: var(--text-main) !important;">MP Police Constable GD 2026 सम्पूर्ण तैयारी कोर्स</h2>
-            <p class="text-sm" style="color: var(--text-muted);">मध्य प्रदेश पुलिस आरक्षक भर्ती हेतु विषयवार थ्योरी नोट्स, प्रैक्टिस सेट्स एवं कमजोर विषय विश्लेषण।</p>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-            <div class="p-4 sm:p-6 rounded-2xl panel space-y-3">
-                <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold" style="background-color: var(--bg-main); color: var(--theme-bg);">
-                    <i class="fa-solid fa-book-open"></i>
-                </div>
-                <h4 class="font-bold text-base" style="color: var(--text-main) !important;">32 अध्यायवार नोट्स</h4>
-                <p class="text-xs leading-relaxed" style="color: var(--text-muted);">नवीनतम पाठ्यक्रम एवं विगत वर्षों के प्रश्नों पर आधारित थ्योरी व शॉर्टकट ट्रिक्स।</p>
-            </div>
-
-            <div class="p-4 sm:p-6 rounded-2xl panel space-y-3">
-                <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold" style="background-color: var(--bg-main); color: var(--theme-bg);">
-                    <i class="fa-solid fa-list-check"></i>
-                </div>
-                <h4 class="font-bold text-base" style="color: var(--text-main) !important;">32 चैप्टर प्रैक्टिस टेस्ट</h4>
-                <p class="text-xs leading-relaxed" style="color: var(--text-muted);">प्रत्येक अध्याय के बाद तुरंत स्व-मूल्यांकन के लिए वस्तुनिष्ठ प्रश्न उत्तर।</p>
-            </div>
-
-            <div class="p-4 sm:p-6 rounded-2xl panel space-y-3">
-                <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold" style="background-color: var(--bg-main); color: var(--theme-active);">
-                    <i class="fa-solid fa-laptop-code"></i>
-                </div>
-                <h4 class="font-bold text-base" style="color: var(--text-main) !important;">10 फुल मॉक टेस्ट</h4>
-                <p class="text-xs leading-relaxed" style="color: var(--text-muted);">100 प्रश्न | 120 मिनट समयसीमा के साथ वास्तविक CBT परीक्षा का अनुभव।</p>
-            </div>
-
-            <div class="p-4 sm:p-6 rounded-2xl panel space-y-3">
-                <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold" style="background-color: var(--bg-main); color: var(--rose);">
-                    <i class="fa-solid fa-chart-line"></i>
-                </div>
-                <h4 class="font-bold text-base" style="color: var(--text-main) !important;">स्मार्ट विश्लेषण व सुधार</h4>
-                <p class="text-xs leading-relaxed" style="color: var(--text-muted);">गलती सुधार पुस्तिका (Error Workbook) द्वारा कमजोर विषयों में त्वरित सुधार।</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- How the Course Works (6 Steps) -->
-<section class="py-16" style="background-color: var(--bg-card); border-top: 1px solid var(--border-color);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        <div class="text-center max-w-2xl mx-auto space-y-2">
-            <span class="text-xs font-bold uppercase tracking-widest" style="color: var(--theme-active);">COURSE METHODOLOGY</span>
-            <h2 class="text-3xl font-extrabold" style="color: var(--text-main) !important;">How the Course Works</h2>
-            <p class="text-xs" style="color: var(--text-muted);">वैज्ञानिक विधि द्वारा 6 चरणों में अपनी तैयारी सुनिश्चित करें</p>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-            <div class="p-4 sm:p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
-                <div class="text-xs font-bold" style="color: var(--theme-bg);">STEP 1</div>
-                <h4 class="font-bold text-base" style="color: var(--text-main) !important;">Study Chapter</h4>
-                <p class="text-xs" style="color: var(--text-muted);">अध्याय के थ्योरी नोट्स ध्यानपूर्वक पढ़ें।</p>
-            </div>
-            <div class="p-4 sm:p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
-                <div class="text-xs font-bold" style="color: var(--theme-bg);">STEP 2</div>
-                <h4 class="font-bold text-base" style="color: var(--text-main) !important;">Complete Notes</h4>
-                <p class="text-xs" style="color: var(--text-muted);">महत्वपूर्ण बिंदु व सूत्रों का पुनरीक्षण करें।</p>
-            </div>
-            <div class="p-4 sm:p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
-                <div class="text-xs font-bold" style="color: var(--theme-bg);">STEP 3</div>
-                <h4 class="font-bold text-base" style="color: var(--text-main) !important;">Take Chapter Test</h4>
-                <p class="text-xs" style="color: var(--text-muted);">15 प्रश्नों का चैप्टर टेस्ट हल करें।</p>
-            </div>
-            <div class="p-4 sm:p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
-                <div class="text-xs font-bold" style="color: var(--theme-bg);">STEP 4</div>
-                <h4 class="font-bold text-base" style="color: var(--text-main) !important;">Check Result</h4>
-                <p class="text-xs" style="color: var(--text-muted);">अपनी सटीकता व स्कोर का विश्लेषण देखें।</p>
-            </div>
-            <div class="p-4 sm:p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
-                <div class="text-xs font-bold" style="color: var(--theme-bg);">STEP 5</div>
-                <h4 class="font-bold text-base" style="color: var(--text-main) !important;">Improve Weak Topics</h4>
-                <p class="text-xs" style="color: var(--text-muted);">गलत प्रश्नों को गलती सुधार पुस्तिका में दोहराएं।</p>
-            </div>
-            <div class="p-4 sm:p-6 rounded-2xl border space-y-2 relative" style="border-color: var(--border-color);">
-                <div class="text-xs font-bold" style="color: var(--theme-bg);">STEP 6</div>
-                <h4 class="font-bold text-base" style="color: var(--text-main) !important;">Attempt Full Mock Tests</h4>
-                <p class="text-xs" style="color: var(--text-muted);">10 फुल मॉक टेस्ट देकर अपनी रैंक जानें।</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Syllabus Breakdown Cards -->
-<section class="py-16" style="background-color: var(--bg-main);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        <div class="text-center max-w-2xl mx-auto space-y-2">
-            <h2 class="text-3xl font-extrabold" style="color: var(--text-main) !important;">MP Police Exam Structure & Syllabus</h2>
-            <p class="text-xs" style="color: var(--text-muted);">100 अंक | 120 मिनट समयसीमा | 3 मुख्य विषय</p>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-            @foreach($subjects as $sub)
-                <div class="p-4 sm:p-6 rounded-2xl panel space-y-4">
-                    <div class="flex items-center justify-between">
-                        <span class="px-2.5 py-1 rounded-full text-xs font-extrabold" style="background-color: var(--bg-main); color: var(--theme-bg);">
-                            {{ $sub->total_marks }} अंक
-                        </span>
-                        <span class="text-xs" style="color: var(--text-muted);">{{ $sub->chapters_count }} अध्यायों में विभाजित</span>
+                <!-- Floating Badge 1 (Top Left Outer Corner) -->
+                <div class="absolute -top-7 left-0 md:-left-6 bg-white border border-gray-200 shadow-xl rounded-xl px-4 py-2.5 flex items-center gap-3 animate-float-delay z-20">
+                    <div class="w-8 h-8 rounded-lg bg-green-100 text-green-600 flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-circle-check"></i>
                     </div>
+                    <div>
+                        <div class="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider">Syllabus</div>
+                        <div class="text-xs font-extrabold text-gray-900">100% Covered</div>
+                    </div>
+                </div>
 
-                    <h3 class="text-lg font-bold" style="color: var(--text-main) !important;">{{ $sub->name_hi }}</h3>
-                    <p class="text-xs" style="color: var(--text-muted);">{{ $sub->name_en }}</p>
+                <!-- Floating Badge 2 (Bottom Right Outer Corner) -->
+                <div class="absolute -bottom-7 right-0 md:-right-6 bg-white border border-gray-200 shadow-xl rounded-xl px-4 py-2.5 flex items-center gap-3 animate-float z-20" style="animation-delay: 1.2s;">
+                    <div class="w-8 h-8 rounded-lg bg-amber-100 text-amber-600 flex items-center justify-center text-sm font-bold">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <div class="text-[9px] font-extrabold text-gray-400 uppercase tracking-wider">Speed Test</div>
+                        <div class="text-xs font-extrabold text-gray-900">+15% Faster</div>
+                    </div>
+                </div>
 
-                    <div class="pt-4 flex items-center justify-between text-xs" style="border-top: 1px solid var(--border-color);">
-                        <a href="{{ route('login') }}" class="hover:underline font-bold" style="color: var(--theme-bg);">
-                            Read Notes →
-                        </a>
-                        <a href="{{ route('login') }}" class="btn btn-secondary text-xs">
-                            Take Test
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats / Partners Banner -->
+<section class="py-6 bg-white border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap items-center justify-between gap-6 opacity-90">
+            <div class="flex items-center gap-3 text-gray-800 font-extrabold text-sm md:text-base"><i class="fa-solid fa-graduation-cap text-lg text-[var(--gold)]"></i> {{ $totalExams ?? 3 }}+ Active Exams</div>
+            <div class="flex items-center gap-3 text-gray-800 font-extrabold text-sm md:text-base"><i class="fa-solid fa-check-double text-lg text-green-500"></i> 100% Syllabus Coverage</div>
+            <div class="flex items-center gap-3 text-gray-800 font-extrabold text-sm md:text-base"><i class="fa-solid fa-laptop-code text-lg text-blue-500"></i> AI Error Analytics</div>
+            <div class="flex items-center gap-3 text-gray-800 font-extrabold text-sm md:text-base"><i class="fa-solid fa-mobile-screen text-lg text-purple-500"></i> 100% Mobile Responsive</div>
+        </div>
+    </div>
+</section>
+
+<!-- Exams Available Section (INTERACTIVE ALPINE FILTERING) -->
+<section id="exams" class="py-14 bg-gray-50" x-data="{ selectedTag: 'all' }">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <span class="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-active)]">Choose Your Exam</span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-[var(--text-main)] mt-1">Featured Exam Webbooks</h2>
+            </div>
+            <a href="{{ route('courses') }}" class="text-xs md:text-sm font-bold text-[var(--theme-active)] hover:underline flex items-center gap-1">View All Exams &rarr;</a>
+        </div>
+
+        <!-- Interactive Filter Tags / Links -->
+        <div class="flex gap-2.5 overflow-x-auto pb-2 scrollbar-hide">
+            <a href="{{ route('courses') }}" class="px-4 py-2 rounded-full border text-xs font-bold whitespace-nowrap shadow-sm transition-all cursor-pointer bg-gray-900 text-white border-gray-900 shadow-md">
+                All Exams ({{ $courses->count() }})
+            </a>
+            @foreach($courses as $course)
+                <a href="{{ route('exam.details', $course->slug) }}" class="px-4 py-2 rounded-full border text-xs font-bold whitespace-nowrap shadow-sm transition-all cursor-pointer bg-white text-gray-800 border-gray-200 hover:border-gray-400">
+                    {{ $course->title_hi }}
+                </a>
+            @endforeach
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach($courses as $course)
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col group">
+                    <div class="p-6 space-y-4 flex-1">
+                        <div class="flex justify-between items-start">
+                            <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl text-white bg-gradient-to-br from-gray-900 to-gray-800 group-hover:scale-110 transition-transform shadow-md">
+                                <i class="fa-solid fa-book-open"></i>
+                            </div>
+                            <span class="px-3 py-1 rounded-full text-xs font-extrabold uppercase bg-red-50 text-red-600 border border-red-100">
+                                {{ round((($course->price - $course->discounted_price) / $course->price) * 100) }}% OFF
+                            </span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-extrabold text-[var(--text-main)] leading-tight">{{ $course->title_hi }}</h3>
+                            <p class="text-xs md:text-sm mt-2 text-gray-500 leading-relaxed line-clamp-2">{{ $course->description_hi }}</p>
+                        </div>
+                        <div class="pt-4 mt-auto border-t border-gray-100">
+                            <div class="flex items-end gap-2.5">
+                                <span class="text-2xl font-black text-[var(--text-main)] leading-none">₹{{ $course->discounted_price }}</span>
+                                <span class="text-sm font-medium line-through text-gray-400 mb-0.5">₹{{ $course->price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-6 py-3.5 bg-gray-50 border-t border-gray-100">
+                        <a href="{{ route('exam.details', $course->slug) }}" class="block w-full text-center text-sm font-bold text-gray-900 hover:text-[var(--gold-deep)] transition-colors">
+                            View Exam Details &rarr;
                         </a>
                     </div>
                 </div>
@@ -252,20 +230,149 @@
     </div>
 </section>
 
-<!-- Free Preview CTA Banner -->
-<section class="py-12" style="background-color: var(--theme-bg);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="space-y-2">
-            <span class="px-3 py-1 rounded-full text-xs font-bold" style="background-color: rgba(255,255,255,0.1); color: var(--theme-active);">FREE TRIAL ACCESS</span>
-            <h3 class="text-2xl font-black" style="color: white !important;">प्रथम 3 अध्यायों के नोट्स और टेस्ट अभी मुफ्त में हल करें!</h3>
-            <p class="text-xs" style="color: rgba(255,255,255,0.7);">बिना किसी शुल्क के ट्रायल शुरू करें और Testwise CBT परीक्षा इंजन का अनुभव करें।</p>
+<!-- SECTION: Webbooks vs Videos Comparison (SPACIOUS) -->
+<section class="py-14 bg-white border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+            <span class="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-active)]">Compare Methodology</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-[var(--text-main)]">Why Choose Webbooks Over Videos?</h2>
         </div>
-        <div class="flex items-center gap-3 shrink-0">
-            <a href="{{ route('login') }}" class="btn btn-gold text-sm shadow-xl">
-                निःशुल्क ट्रायल शुरू करें
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <!-- Videos (Negative) -->
+            <div class="p-6 rounded-2xl bg-red-50/60 border border-red-100 space-y-4 shadow-sm">
+                <h3 class="font-extrabold text-base text-red-900 flex items-center gap-2.5">
+                    <i class="fa-solid fa-circle-xmark text-xl text-red-500"></i> Traditional Video Courses
+                </h3>
+                <ul class="text-xs md:text-sm text-red-800 space-y-3 font-medium">
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-minus mt-1 text-red-400"></i> Takes 100+ hours to finish one single subject.</li>
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-minus mt-1 text-red-400"></i> Passive watching leads to poor long-term memory retention.</li>
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-minus mt-1 text-red-400"></i> Extremely difficult to revise 10 days before exams.</li>
+                </ul>
+            </div>
+            <!-- Webbooks (Positive) -->
+            <div class="p-6 rounded-2xl bg-emerald-50/60 border border-emerald-100 space-y-4 shadow-sm">
+                <h3 class="font-extrabold text-base text-emerald-900 flex items-center gap-2.5">
+                    <i class="fa-solid fa-circle-check text-xl text-emerald-500"></i> Testwise Webbooks
+                </h3>
+                <ul class="text-xs md:text-sm text-emerald-800 space-y-3 font-medium">
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-emerald-500"></i> Read concise notes 5x faster than watching videos.</li>
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-emerald-500"></i> Active learning with immediate Chapter MCQ Tests.</li>
+                    <li class="flex items-start gap-2.5"><i class="fa-solid fa-check mt-1 text-emerald-500"></i> Auto-generated AI error book for quick final revision.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works (SPACIOUS) -->
+<section class="py-14 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+            <span class="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-active)]">Step-by-Step</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-[var(--text-main)]">4 Steps to Score High</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="p-5 rounded-2xl bg-white border border-gray-200 shadow-sm text-center space-y-2">
+                <div class="w-12 h-12 mx-auto rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center text-base font-black">1</div>
+                <h4 class="font-extrabold text-sm md:text-base text-gray-900">Study Notes</h4>
+                <p class="text-xs text-gray-500 leading-relaxed">Read point-wise, highly targeted syllabus chapter notes.</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-white border border-gray-200 shadow-sm text-center space-y-2">
+                <div class="w-12 h-12 mx-auto rounded-xl bg-green-100 text-green-600 flex items-center justify-center text-base font-black">2</div>
+                <h4 class="font-extrabold text-sm md:text-base text-gray-900">Chapter Test</h4>
+                <p class="text-xs text-gray-500 leading-relaxed">Attempt immediate MCQs right after finishing a chapter.</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-white border border-gray-200 shadow-sm text-center space-y-2">
+                <div class="w-12 h-12 mx-auto rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-base font-black">3</div>
+                <h4 class="font-extrabold text-sm md:text-base text-gray-900">Error Tracking</h4>
+                <p class="text-xs text-gray-500 leading-relaxed">Our AI automatically compiles wrong answers for revision.</p>
+            </div>
+            <div class="p-5 rounded-2xl bg-white border border-gray-200 shadow-sm text-center space-y-2">
+                <div class="w-12 h-12 mx-auto rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-base font-black">4</div>
+                <h4 class="font-extrabold text-sm md:text-base text-gray-900">Mock Exams</h4>
+                <p class="text-xs text-gray-500 leading-relaxed">Give full-length CBT tests to build speed and confidence.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Wall of Fame (Top Performers - SPACIOUS) -->
+<section class="py-14 bg-white border-t border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+            <span class="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-active)]">Success Stories</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-[var(--text-main)]">Wall of Fame</h2>
+        </div>
+        
+        <div class="flex gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x justify-start md:justify-center">
+            <div class="snap-center min-w-[240px] bg-gray-50 rounded-2xl p-5 border border-gray-200 text-center flex-shrink-0 relative overflow-hidden shadow-sm">
+                <div class="absolute top-0 right-0 w-9 h-9 bg-amber-400 rounded-bl-2xl shadow"></div>
+                <i class="fa-solid fa-trophy absolute top-1.5 right-2 text-xs text-white"></i>
+                <img class="w-14 h-14 mx-auto rounded-full border-2 border-white shadow-md mb-3" src="https://i.pravatar.cc/100?img=11" alt="Rank 1">
+                <div class="text-sm font-extrabold text-gray-900">Rahul Sharma</div>
+                <div class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Rank 1 - SSC CGL</div>
+                <div class="inline-block px-3 py-1 bg-white border border-gray-200 rounded-full text-xs font-extrabold text-green-600 shadow-sm">Score: 92%</div>
+            </div>
+
+            <div class="snap-center min-w-[240px] bg-gray-50 rounded-2xl p-5 border border-gray-200 text-center flex-shrink-0 relative overflow-hidden shadow-sm">
+                <div class="absolute top-0 right-0 w-9 h-9 bg-slate-400 rounded-bl-2xl shadow"></div>
+                <img class="w-14 h-14 mx-auto rounded-full border-2 border-white shadow-md mb-3" src="https://i.pravatar.cc/100?img=47" alt="Rank 2">
+                <div class="text-sm font-extrabold text-gray-900">Priya Mishra</div>
+                <div class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Rank 2 - MP Police</div>
+                <div class="inline-block px-3 py-1 bg-white border border-gray-200 rounded-full text-xs font-extrabold text-green-600 shadow-sm">Score: 89%</div>
+            </div>
+
+            <div class="snap-center min-w-[240px] bg-gray-50 rounded-2xl p-5 border border-gray-200 text-center flex-shrink-0 relative overflow-hidden shadow-sm">
+                <div class="absolute top-0 right-0 w-9 h-9 bg-orange-400 rounded-bl-2xl shadow"></div>
+                <img class="w-14 h-14 mx-auto rounded-full border-2 border-white shadow-md mb-3" src="https://i.pravatar.cc/100?img=12" alt="Rank 3">
+                <div class="text-sm font-extrabold text-gray-900">Amit Kumar</div>
+                <div class="text-xs text-gray-500 font-bold uppercase tracking-wider mb-2">Rank 3 - Patwari</div>
+                <div class="inline-block px-3 py-1 bg-white border border-gray-200 rounded-full text-xs font-extrabold text-green-600 shadow-sm">Score: 88%</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Frequently Asked Questions (SPACIOUS) -->
+<section class="py-14 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div class="text-center space-y-2">
+            <span class="text-xs font-extrabold uppercase tracking-widest text-[var(--theme-active)]">Have Questions?</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-[var(--text-main)]">Frequently Asked Questions</h2>
+        </div>
+        
+        <div class="space-y-3">
+            <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm space-y-1.5">
+                <h4 class="text-sm md:text-base font-extrabold text-gray-900">Q. Are the mock tests strictly based on the latest exam syllabus?</h4>
+                <p class="text-xs md:text-sm text-gray-600 leading-relaxed">Yes, all our mock tests and webbook notes are updated regularly to reflect the exact latest syllabus and TCS exam patterns.</p>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm space-y-1.5">
+                <h4 class="text-sm md:text-base font-extrabold text-gray-900">Q. Can I attempt mock tests on my mobile phone?</h4>
+                <p class="text-xs md:text-sm text-gray-600 leading-relaxed">Absolutely! Our entire platform is 100% mobile-responsive, so you can read chapter notes and give full CBT mock tests smoothly on any mobile device.</p>
+            </div>
+            <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm space-y-1.5">
+                <h4 class="text-sm md:text-base font-extrabold text-gray-900">Q. Do you offer a free trial or demo content?</h4>
+                <p class="text-xs md:text-sm text-gray-600 leading-relaxed">Yes! You can explore free chapter notes and take a free full mock test on our "Free Content" page without paying anything.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call To Action (SPACIOUS) -->
+<section class="py-14 md:py-16 bg-gradient-to-r from-gray-900 to-[#17233F] text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+        <div class="space-y-2">
+            <h2 class="text-2xl md:text-3xl font-extrabold">Ready to boost your exam score?</h2>
+            <p class="text-xs md:text-sm text-gray-300">Join thousands of students preparing smarter with Testwise Webbooks.</p>
+        </div>
+        <div class="flex gap-3 shrink-0">
+            <a href="{{ route('register') }}" class="px-7 py-3.5 rounded-xl text-sm font-extrabold bg-[var(--gold)] text-gray-900 shadow-lg hover:bg-yellow-500 transition-colors">
+                Sign Up Now
             </a>
-            <a href="{{ route('courses') }}" class="btn px-6 py-3 border text-sm" style="background-color: transparent; border-color: rgba(255,255,255,0.2); color: white;">
-                पूरा सिलेबस देखें
+            <a href="{{ route('free-content') }}" class="px-7 py-3.5 rounded-xl text-sm font-extrabold bg-white/10 hover:bg-white/20 border border-white/20 transition-colors">
+                Free Demo
             </a>
         </div>
     </div>

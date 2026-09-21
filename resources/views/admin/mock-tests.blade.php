@@ -20,14 +20,17 @@
             <div class="p-6 rounded-3xl panel space-y-4">
                 <div class="flex items-center justify-between">
                     <span class="text-xs font-bold uppercase" style="color: var(--theme-active);">FULL MOCK TEST {{ sprintf('%02d', $m->test_number) }}</span>
-                    @if($m->is_free)
-                        <span class="px-2.5 py-0.5 rounded-full font-extrabold text-[10px]" style="background-color: var(--teal-soft); color: var(--teal); border: 1px solid var(--teal);">FREE PREVIEW</span>
-                    @else
-                        <span class="px-2.5 py-0.5 rounded-full font-extrabold text-[10px]" style="background-color: var(--bg-main); color: var(--text-muted); border: 1px solid var(--border-hard);">PRO</span>
-                    @endif
+                    <div class="flex items-center gap-2">
+                        <span class="text-[10px] px-2 py-0.5 rounded-full" style="background-color: var(--border-color); color: var(--text-muted);">{{ $m->course ? $m->course->title_hi : 'N/A' }}</span>
+                        @if($m->is_free)
+                            <span class="px-2.5 py-0.5 rounded-full font-extrabold text-[10px]" style="background-color: var(--teal-soft); color: var(--teal); border: 1px solid var(--teal);">FREE PREVIEW</span>
+                        @else
+                            <span class="px-2.5 py-0.5 rounded-full font-extrabold text-[10px]" style="background-color: var(--bg-main); color: var(--text-muted); border: 1px solid var(--border-hard);">PRO</span>
+                        @endif
+                    </div>
                 </div>
 
-                <h3 class="text-lg font-bold" style="color: var(--text-main) !important;">{{ $m->title_hi }}</h3>
+                <h3 class="text-lg font-bold mt-2" style="color: var(--text-main) !important;">{{ $m->title_hi }}</h3>
                 <p class="text-xs" style="color: var(--text-muted);">{{ $m->duration_minutes }} मिनट • {{ $m->total_questions }} प्रश्न • {{ $m->total_marks }} अंक</p>
 
                 <div class="pt-2 flex items-center justify-between text-xs border-t" style="border-color: var(--border-color); margin-top: 10px; padding-top: 10px;">
@@ -52,7 +55,16 @@
         <form action="{{ route('admin.mock-tests.store') }}" method="POST" class="space-y-4 text-xs">
             @csrf
             <div class="field">
-                <label>Test Number</label>
+                <label>Course / Exam</label>
+                <select name="course_id" required>
+                    @foreach($courses as $course)
+                        <option value="{{ $course->id }}">{{ $course->title_hi }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Test Number (क्रम संख्या)</label>
                 <input type="number" name="test_number" value="11" required>
             </div>
 

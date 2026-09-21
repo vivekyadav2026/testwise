@@ -15,6 +15,7 @@ use App\Http\Controllers\AdminController;
 // Public Website Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/courses', [HomeController::class, 'courses'])->name('courses');
+Route::get('/exam/{slug}', [HomeController::class, 'examDetails'])->name('exam.details');
 Route::get('/free-content', [HomeController::class, 'freeContent'])->name('free-content');
 Route::get('/verify-certificate', [HomeController::class, 'verifyCertificate'])->name('verify-certificate');
 Route::get('/exam-info', [HomeController::class, 'examInfo'])->name('exam-info');
@@ -31,8 +32,9 @@ Route::post('/logout', [AuthController::class, 'logout']);
 
 
 // Student Portal Routes
-Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard')->middleware('auth');
+Route::redirect('/dashboard', '/student/my-courses');
 Route::prefix('student')->name('student.')->middleware('auth')->group(function () {
+    Route::get('/my-courses', [StudentController::class, 'myCourses'])->name('my-courses');
     Route::get('/dashboard', [StudentController::class, 'dashboard'])->name('dashboard');
     Route::get('/course', [StudentController::class, 'course'])->name('course');
     Route::get('/chapter-tests', [StudentController::class, 'course'])->name('chapter-tests');
@@ -49,12 +51,21 @@ Route::prefix('student')->name('student.')->middleware('auth')->group(function (
     Route::put('/profile/update', [StudentController::class, 'updateProfile'])->name('profile.update');
     Route::put('/profile/password', [StudentController::class, 'updatePassword'])->name('profile.password');
     Route::post('/unlock-pro', [StudentController::class, 'unlockPro'])->name('unlock-pro');
+    Route::post('/switch-course', [StudentController::class, 'switchCourse'])->name('switch-course');
 });
 
 // Admin Console Routes
 Route::get('/admin', [AdminController::class, 'dashboard'])->name('admin')->middleware('auth');
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    
+    // Courses
+    Route::get('/courses', [AdminController::class, 'courses'])->name('courses');
+    Route::post('/courses/store', [AdminController::class, 'storeCourse'])->name('courses.store');
+    Route::put('/courses/{id}', [AdminController::class, 'updateCourse'])->name('courses.update');
+    Route::delete('/courses/{id}', [AdminController::class, 'destroyCourse'])->name('courses.destroy');
+    
+    // Subjects
     Route::get('/subjects', [AdminController::class, 'subjects'])->name('subjects');
     Route::post('/subjects/store', [AdminController::class, 'storeSubject'])->name('subjects.store');
     Route::put('/subjects/{id}', [AdminController::class, 'updateSubject'])->name('subjects.update');

@@ -64,4 +64,24 @@ class User extends Authenticatable
     {
         return $this->role === 'student';
     }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'enrollments');
+    }
+
+    public function isProFor($courseId): bool
+    {
+        return $this->enrollments()->where('course_id', $courseId)->where('is_pro', true)->exists();
+    }
+
+    public function hasCourse($courseId): bool
+    {
+        return $this->enrollments()->where('course_id', $courseId)->exists();
+    }
 }
