@@ -45,6 +45,27 @@ class HomeController extends Controller
         return view('exam-details', compact('course'));
     }
 
+    public function enroll($id)
+    {
+        $course = \App\Models\Course::findOrFail($id);
+
+        if (\Illuminate\Support\Facades\Auth::check()) {
+            $user = \Illuminate\Support\Facades\Auth::user();
+            if ($user->isStudent()) {
+                \App\Models\Enrollment::firstOrCreate([
+                    'user_id' => $user->id,
+                    'course_id' => $course->id,
+                ]);
+            }
+            session(['current_course_id' => $course->id]);
+            return redirect()->route('student.course')->with('success', 'आपने ' . ($course->title_hi ?? $course->title_en) . ' सफलतापूर्वक सेलेक्ट / एनरोल कर लिया है!');
+        }
+
+        session(['pending_course_id' => $course->id]);
+
+        return redirect()->route('register', ['course_id' => $course->id])->with('info', 'कृपया ' . ($course->title_hi ?? $course->title_en) . ' में एनरोल करने के लिए रजिस्ट्रेशन करें या लॉगिन करें।');
+    }
+
     public function freeContent()
     {
         $freeChapters = Chapter::where('is_free_preview', true)->with('subject')->get();

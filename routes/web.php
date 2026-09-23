@@ -5,6 +5,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\RazorpayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +19,7 @@ use App\Http\Controllers\AdminController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/courses', [HomeController::class, 'courses'])->name('courses');
 Route::get('/exam/{slug}', [HomeController::class, 'examDetails'])->name('exam.details');
+Route::get('/enroll/{id}', [HomeController::class, 'enroll'])->name('enroll');
 Route::get('/free-content', [HomeController::class, 'freeContent'])->name('free-content');
 Route::get('/verify-certificate', [HomeController::class, 'verifyCertificate'])->name('verify-certificate');
 Route::get('/exam-info', [HomeController::class, 'examInfo'])->name('exam-info');
@@ -29,6 +33,20 @@ Route::get('/register', [AuthController::class, 'showRegister'])->name('register
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/logout', [AuthController::class, 'logout']);
+
+// Google OAuth Authentication Routes
+Route::get('/auth/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('/auth/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->name('auth.google.callback');
+
+// Password Reset Routes
+Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'])->name('password.update');
+
+// Razorpay Payment Gateway Routes
+Route::post('/razorpay/create-order', [RazorpayController::class, 'createOrder'])->name('razorpay.create-order')->middleware('auth');
+Route::post('/razorpay/verify-payment', [RazorpayController::class, 'verifyPayment'])->name('razorpay.verify-payment')->middleware('auth');
 
 
 // Student Portal Routes

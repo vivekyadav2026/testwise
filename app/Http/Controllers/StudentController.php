@@ -30,17 +30,32 @@ class StudentController extends Controller
         
         if ($courseId) {
             $course = \App\Models\Course::find($courseId);
-            if ($course) return $course;
+            if ($course) {
+                \App\Models\Enrollment::firstOrCreate([
+                    'user_id' => $user->id,
+                    'course_id' => $course->id,
+                ]);
+                return $course;
+            }
         }
 
         // Fallback to first enrolled course
         $firstEnrollment = $user->enrollments()->first();
-        if ($firstEnrollment) {
+        if ($firstEnrollment && $firstEnrollment->course) {
+            session(['current_course_id' => $firstEnrollment->course_id]);
             return $firstEnrollment->course;
         }
 
-        // Fallback to default course (ID 1)
-        return \App\Models\Course::first();
+        // Fallback to default course (ID 1 or first active)
+        $defaultCourse = \App\Models\Course::where('is_active', true)->first();
+        if ($defaultCourse) {
+            \App\Models\Enrollment::firstOrCreate([
+                'user_id' => $user->id,
+                'course_id' => $defaultCourse->id,
+            ]);
+            session(['current_course_id' => $defaultCourse->id]);
+        }
+        return $defaultCourse;
     }
 
     public function myCourses(Request $request)
@@ -180,6 +195,11 @@ class StudentController extends Controller
     {
         $courseId = $request->input('course_id');
         if ($courseId) {
+            $user = $this->getStudentUser();
+            \App\Models\Enrollment::firstOrCreate([
+                'user_id' => $user->id,
+                'course_id' => $courseId,
+            ]);
             session(['current_course_id' => $courseId]);
         }
         
@@ -194,9 +214,11 @@ class StudentController extends Controller
     public function readNotes($id)
     {
         $user = $this->getStudentUser();
-        $chapter = Chapter::with('subject')->findOrFail($id);
+        $chapter = Chapter::with('subject.course')->findOrFail($id);
+        $courseId = $chapter->subject->course_id ?? session('current_course_id') ?? 1;
+        $isPro = $user->isProFor($courseId);
 
-        if (!$chapter->is_free_preview && !$user->is_pro) {
+        if (!$chapter->is_free_preview && !$isPro) {
             return redirect()->route('student.course')->with('error', 'यह अध्याय Pro सब्सक्रिप्शन के साथ अनलॉक होगा! (This chapter requires Pro unlock ₹499)');
         }
 
@@ -227,7 +249,10 @@ class StudentController extends Controller
 
         if ($type === 'chapter') {
             $item = Chapter::with('subject')->findOrFail($id);
-            if (!$item->is_free_preview && !$user->is_pro) {
+            $courseId = $item->subject->course_id ?? session('current_course_id') ?? 1;
+            $isPro = $user->isProFor($courseId);
+
+            if (!$item->is_free_preview && !$isPro) {
                 return redirect()->route('student.course')->with('error', 'यह टेस्ट केवल Pro सदस्यों के लिए उपलब्ध है। (Unlock for ₹499)');
             }
             $questions = Question::where('chapter_id', $id)->get();
@@ -239,7 +264,10 @@ class StudentController extends Controller
             $durationMinutes = $item->duration_minutes ?: 20;
         } else {
             $item = MockTest::findOrFail($id);
-            if (!$item->is_free && !$user->is_pro) {
+            $courseId = $item->course_id ?? session('current_course_id') ?? 1;
+            $isPro = $user->isProFor($courseId);
+
+            if (!$item->is_free && !$isPro) {
                 return redirect()->route('student.mock-tests')->with('error', 'यह फुल मॉक टेस्ट Pro सब्सक्रिप्शन के साथ उपलब्ध है।');
             }
             $questions = Question::where('mock_test_id', $id)->get();

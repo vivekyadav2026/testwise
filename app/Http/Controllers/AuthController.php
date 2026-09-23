@@ -9,9 +9,17 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function showLogin()
+    public function showLogin(Request $request)
     {
+        if ($request->has('course_id')) {
+            session(['pending_course_id' => $request->query('course_id')]);
+        }
+
         if (Auth::check()) {
+            $pendingCourseId = session()->pull('pending_course_id');
+            if ($pendingCourseId) {
+                return redirect()->route('enroll', $pendingCourseId);
+            }
             return Auth::user()->isAdmin()
                 ? redirect()->route('admin.dashboard')
                 : redirect()->route('student.my-courses');
@@ -32,6 +40,17 @@ class AuthController extends Controller
             if (Auth::user()->isAdmin()) {
                 return redirect()->intended(route('admin.dashboard'));
             }
+
+            $pendingCourseId = session()->pull('pending_course_id') ?? $request->input('course_id');
+            if ($pendingCourseId) {
+                \App\Models\Enrollment::firstOrCreate([
+                    'user_id' => Auth::id(),
+                    'course_id' => $pendingCourseId,
+                ]);
+                session(['current_course_id' => $pendingCourseId]);
+                return redirect()->route('student.course')->with('success', 'Logged in and course enrolled successfully!');
+            }
+
             return redirect()->intended(route('student.my-courses'));
         }
 
@@ -40,9 +59,17 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-    public function showRegister()
+    public function showRegister(Request $request)
     {
+        if ($request->has('course_id')) {
+            session(['pending_course_id' => $request->query('course_id')]);
+        }
+
         if (Auth::check()) {
+            $pendingCourseId = session()->pull('pending_course_id');
+            if ($pendingCourseId) {
+                return redirect()->route('enroll', $pendingCourseId);
+            }
             return redirect()->route('student.my-courses');
         }
         return view('auth.register');
@@ -67,6 +94,16 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+
+        $pendingCourseId = session()->pull('pending_course_id') ?? $request->input('course_id');
+        if ($pendingCourseId) {
+            \App\Models\Enrollment::firstOrCreate([
+                'user_id' => $user->id,
+                'course_id' => $pendingCourseId,
+            ]);
+            session(['current_course_id' => $pendingCourseId]);
+            return redirect()->route('student.course')->with('success', 'Account created and course enrolled successfully!');
+        }
 
         return redirect()->route('student.my-courses')->with('success', 'Account created successfully! Welcome to Testwise.');
     }

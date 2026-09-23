@@ -22,7 +22,7 @@
                         <div class="text-sm font-medium line-through text-gray-400 mt-1">₹{{ $course->price }}</div>
                     </div>
                     
-                    <a href="{{ route('login') }}" class="btn btn-gold px-8 py-3 rounded-xl shadow-lg hover:-translate-y-1 transition-transform">
+                    <a href="{{ route('enroll', $course->id) }}" class="btn btn-gold px-8 py-3 rounded-xl shadow-lg hover:-translate-y-1 transition-transform">
                         Enroll Now <i class="fa-solid fa-arrow-right ml-2"></i>
                     </a>
                 </div>

@@ -364,8 +364,8 @@
 <section class="py-14 md:py-16 bg-gradient-to-r from-gray-900 to-[#17233F] text-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
         <div class="space-y-2">
-            <h2 class="text-2xl md:text-3xl font-extrabold">Ready to boost your exam score?</h2>
-            <p class="text-xs md:text-sm text-gray-300">Join thousands of students preparing smarter with Testwise Webbooks.</p>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white" style="color: #ffffff !important;">Ready to boost your exam score?</h2>
+            <p class="text-xs md:text-sm text-gray-200" style="color: #e2e8f0 !important;">Join thousands of students preparing smarter with Testwise Webbooks.</p>
         </div>
         <div class="flex gap-3 shrink-0">
             <a href="{{ route('register') }}" class="px-7 py-3.5 rounded-xl text-sm font-extrabold bg-[var(--gold)] text-gray-900 shadow-lg hover:bg-yellow-500 transition-colors">

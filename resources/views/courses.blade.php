@@ -60,7 +60,7 @@
                             </div>
                         </div>
                         <div class="px-6 py-3.5 bg-gray-50 border-t border-gray-100">
-                            <a href="{{ route('login') }}" class="block w-full text-center text-sm font-bold text-gray-900 hover:text-[var(--gold-deep)] transition-colors">
+                            <a href="{{ route('enroll', $course->id) }}" class="block w-full text-center text-sm font-bold text-gray-900 hover:text-[var(--gold-deep)] transition-colors">
                                 Enroll Now &rarr;
                             </a>
                         </div>

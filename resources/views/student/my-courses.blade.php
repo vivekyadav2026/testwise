@@ -17,9 +17,15 @@
         <div class="card rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300">
             <div class="h-32 p-5 relative flex flex-col justify-end" style="background: linear-gradient(135deg, #17233f, #2a3754);">
                 @if($isEnrolled)
-                    <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-2.5 py-1 rounded-md text-[11px] font-bold text-white border border-white/20">
-                        <i class="fa-solid fa-check-circle text-[var(--gold)]"></i> Enrolled
-                    </div>
+                    @if($isPro)
+                        <div class="absolute top-4 right-4 bg-teal-500/20 backdrop-blur-sm px-2.5 py-1 rounded-md text-[11px] font-bold text-teal-300 border border-teal-500/30">
+                            <i class="fa-solid fa-crown text-[var(--gold)]"></i> Pro Unlocked
+                        </div>
+                    @else
+                        <div class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm px-2.5 py-1 rounded-md text-[11px] font-bold text-white border border-white/20">
+                            <i class="fa-solid fa-eye text-yellow-300"></i> Free Preview
+                        </div>
+                    @endif
                 @endif
                 <div class="relative z-10">
                     <h3 class="text-lg font-extrabold leading-tight tracking-tight text-white" style="color: #ffffff !important;">{{ $course->title_hi }}</h3>
@@ -36,7 +42,7 @@
                     @csrf
                     <input type="hidden" name="course_id" value="{{ $course->id }}">
                     <button type="submit" class="w-full btn btn-gold" style="justify-content: center; width: 100%;">
-                        <span>Go to Course</span>
+                        <span>{{ $isEnrolled ? 'Go to Course' : 'Enroll & Start' }}</span>
                         <i class="fa-solid fa-arrow-right ml-1"></i>
                     </button>
                 </form>

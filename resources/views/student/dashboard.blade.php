@@ -10,26 +10,23 @@
         <div class="space-y-2 relative z-10">
             <div class="flex items-center gap-3">
                 <h1 class="text-2xl sm:text-3xl font-black" style="color: var(--text-main) !important;">नमस्ते, {{ $user->name }}! 👏</h1>
-                @if(!$user->is_pro)
+                @if(!$isPro)
                     <span class="px-3 py-1 rounded-full text-xs font-bold" style="background-color: rgba(217,154,43,0.1); color: var(--gold-deep); border: 1px solid var(--gold);">
                         FREE PREVIEW USER
                     </span>
                 @else
                     <span class="px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1" style="background-color: var(--teal-soft); color: var(--teal); border: 1px solid var(--teal);">
-                        <i class="fa-solid fa-crown" style="color: var(--gold);"></i> PRO ENROLLED
+                        <i class="fa-solid fa-crown" style="color: var(--gold);"></i> PRO UNLOCKED
                     </span>
                 @endif
             </div>
-            <p class="text-xs" style="color: var(--text-muted);">MP Police Constable GD 2026 भर्ती की आपकी दैनिक तैयारी प्रगति</p>
+            <p class="text-xs" style="color: var(--text-muted);">{{ $course->title_hi ?? 'MP Police Constable GD 2026' }} भर्ती की आपकी दैनिक तैयारी प्रगति</p>
         </div>
 
-        @if(!$user->is_pro)
-            <form action="{{ route('student.unlock-pro') }}" method="POST" class="shrink-0 relative z-10">
-                @csrf
-                <button type="submit" class="btn btn-gold text-xs shadow-xl justify-center gap-2">
-                    <i class="fa-solid fa-bolt"></i> कोर्स अनलॉक करें (₹499)
-                </button>
-            </form>
+        @if(!$isPro)
+            <button type="button" onclick="payWithRazorpay()" class="btn btn-gold text-xs shadow-xl justify-center gap-2 shrink-0 relative z-10 cursor-pointer">
+                <i class="fa-solid fa-bolt"></i> कोर्स अनलॉक करें (₹499)
+            </button>
         @endif
     </div>
 
